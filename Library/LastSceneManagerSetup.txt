@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/UDP.unity
+- path: Assets/Scenes/Horror#3.unity
   isLoaded: 1
   isActive: 1
