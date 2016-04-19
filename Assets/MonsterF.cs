@@ -37,6 +37,8 @@ public class MonsterF : Monster {
             NoticePlayer();
         }
         if (Roar) {
+            anim.SetBool("SeenPlayer", true);
+            nav.speed = 2f;
             playerPosition = player.transform.position;
             nav.SetDestination(playerPosition);
             nav.Resume();
@@ -74,6 +76,7 @@ public class MonsterF : Monster {
     {
         if (moveSpeed * moveSpeed == 0)
             anim.SetBool("RoarFromStance", true);
+        //play soundfile for beast roar
         else
             anim.SetBool("roar", true);
         
@@ -84,6 +87,7 @@ public class MonsterF : Monster {
             Roar = true;
             anim.SetBool("roar", false);
             anim.SetBool("RoarFromStance", false);
+            
         }
     }
 }
