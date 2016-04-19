@@ -9,6 +9,11 @@ public class Rumble : MonoBehaviour {
     PlayerIndex playerIndex;
     GamePadState state;
     GamePadState prevState;
+    float x;
+
+    //
+    public int timer = 0;
+    int maxTime = 15;
 
     // Use this for initialization
     void Start()
@@ -19,6 +24,7 @@ public class Rumble : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
+    	timer++;
         // Find a PlayerIndex, for a single player game
         // Will find the first controller that is connected ans use it
         if (!playerIndexSet || !prevState.IsConnected)
@@ -39,21 +45,16 @@ public class Rumble : MonoBehaviour {
         prevState = state;
         state = GamePad.GetState(playerIndex);
 
-        // Detect if a button was pressed this frame
-        if (prevState.Buttons.A == ButtonState.Released && state.Buttons.A == ButtonState.Pressed)
-        {
-            GetComponent<Renderer>().material.color = new Color(Random.value, Random.value, Random.value, 1.0f);
-        }
-        // Detect if a button was released this frame
-        if (prevState.Buttons.A == ButtonState.Pressed && state.Buttons.A == ButtonState.Released)
-        {
-            GetComponent<Renderer>().material.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
-        }
+        GamePad.SetVibration(playerIndex, 0, x);
+        if(timer>maxTime){
+        transform.localRotation *= Quaternion.Euler(0.0f, 100.0f, 0.0f);
+        x = 0.10f;
+        timer = -5;
+    } 
+    if(timer<maxTime && timer>0){
+        x = 0.0f;
+        
 
-        // Set vibration according to triggers
-        GamePad.SetVibration(playerIndex, state.Triggers.Left, state.Triggers.Right);
-
-        // Make the current object turn
-        transform.localRotation *= Quaternion.Euler(0.0f, state.ThumbSticks.Left.X * 25.0f * Time.deltaTime, 0.0f);
+    }
     }
 }
