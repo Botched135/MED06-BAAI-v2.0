@@ -90,7 +90,11 @@
     <Compile Include="Assets\Scripts\Elevator.cs" />
     <Compile Include="Assets\Scripts\Fading.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
+    <Compile Include="Assets\Scripts\Howl.cs" />
     <Compile Include="Assets\Scripts\LightFlicker.cs" />
+    <Compile Include="Assets\Scripts\MonsterFSound.cs" />
+    <Compile Include="Assets\Scripts\MonsterMSound.cs" />
+    <Compile Include="Assets\Scripts\MonsterUSound.cs" />
     <Compile Include="Assets\Scripts\MovingMeat.cs" />
     <Compile Include="Assets\Scripts\NewBehaviourScript.cs" />
     <Compile Include="Assets\Scripts\RedLight.cs" />
