@@ -7,7 +7,7 @@ public class Chains : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		AudioSource.PlayClipAtPoint(chainSound, transform.position); // play once at start
+		//AudioSource.PlayClipAtPoint(chainSound, transform.position); // play once at start
 		timer = 0;
 	}
 	
