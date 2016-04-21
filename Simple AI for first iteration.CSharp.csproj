@@ -94,6 +94,7 @@
     <Compile Include="Assets\Scripts\MovingMeat.cs" />
     <Compile Include="Assets\Scripts\NewBehaviourScript.cs" />
     <Compile Include="Assets\Scripts\RedLight.cs" />
+    <Compile Include="Assets\Scripts\RespawnEnemy.cs" />
     <Compile Include="Assets\Scripts\Rumble.cs" />
     <Compile Include="Assets\Scripts\SpiderMovement.cs" />
     <Compile Include="Assets\Scripts\SpiderMovementLeft.cs" />

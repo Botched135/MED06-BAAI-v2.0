@@ -66,12 +66,13 @@ public class MonsterU : Monster {
 
             if (angle < fieldOfViewAngle * 0.5f)
             {
-
+                Debug.DrawRay(transform.position + direction.normalized, direction, Color.red);
                 RaycastHit hit;
-                if (Physics.Raycast(transform.position, direction, out hit, col.radius))
+                if (Physics.Raycast(transform.position+direction.normalized, direction, out hit, col.radius))
                 {
                     if (hit.collider.gameObject == player)
                     {
+                        Debug.Log("NOTICE ME SENPAI!");
                         seenPlayer = true;
                         StopCoroutine(LookingSequence());
 

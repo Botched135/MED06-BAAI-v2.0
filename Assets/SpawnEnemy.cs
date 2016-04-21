@@ -5,14 +5,15 @@ public class SpawnEnemy : MonoBehaviour {
 
     public GameObject Enemy; 
     private GameObject Player;
-    private Transform SpawnPoint;
+    [SerializeField]
+    private GameObject SpawnPoint;
     private bool Activated;
+    public GameObject partnerTriggerZone;
 
     void Awake()
     {
-        SpawnPoint = GameObject.FindGameObjectWithTag("Respawn").transform;
+        
         Player = GameObject.FindGameObjectWithTag("Player");
-        Activated = false;
     }
 	
 	// Update is called once per frame
@@ -21,8 +22,9 @@ public class SpawnEnemy : MonoBehaviour {
     {
         if(other.gameObject == Player && !Activated)
         {
-
-            Instantiate(Enemy, SpawnPoint.position, Quaternion.identity);
+            //Destroy(GameObject.FindGameObjectWithTag("Enemy"));
+            Instantiate(Enemy, SpawnPoint.transform.position, Quaternion.identity);
+            Destroy(partnerTriggerZone);
             Destroy(gameObject);
             
         }
