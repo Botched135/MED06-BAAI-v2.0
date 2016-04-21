@@ -49,9 +49,6 @@
      <Compile Include="Assets\EnemySight.cs" />
      <Compile Include="Assets\MannequineScript.cs" />
      <Compile Include="Assets\Model\FliesSystem\Example\Standard Assets\Character Controllers\Sources\Scripts\MouseLook.cs" />
-     <Compile Include="Assets\Model\FliesSystem\Scripts\Drawers\MinMaxSliderAttribute.cs" />
-     <Compile Include="Assets\Model\FliesSystem\Scripts\Drawers\MinMaxSliderDrawer.cs" />
-     <Compile Include="Assets\Model\FliesSystem\Scripts\FliesSystem.cs" />
      <Compile Include="Assets\Model\FliesSystem\Scripts\Fly.cs" />
      <Compile Include="Assets\Monster.cs" />
      <Compile Include="Assets\MonsterF.cs" />
@@ -71,6 +68,7 @@
      <Compile Include="Assets\Scripts\MovingMeat.cs" />
      <Compile Include="Assets\Scripts\NewBehaviourScript.cs" />
      <Compile Include="Assets\Scripts\RedLight.cs" />
+     <Compile Include="Assets\Scripts\RespawnEnemy.cs" />
      <Compile Include="Assets\Scripts\Rumble.cs" />
      <Compile Include="Assets\Scripts\SpiderMovement.cs" />
      <Compile Include="Assets\Scripts\SpiderMovementLeft.cs" />
