@@ -58,7 +58,7 @@ public class MonsterF : Monster {
             {
                 
                 RaycastHit hit;
-                if (Physics.Raycast(transform.position, direction, out hit, col.radius))
+                if (Physics.Raycast(transform.position+direction.normalized, direction, out hit, col.radius))
                 {
                     if (hit.collider.gameObject == player)
                     {
