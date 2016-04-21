@@ -13,18 +13,35 @@ public class Fading : MonoBehaviour {
 	void Update(){
 		if (Input.GetKeyDown (KeyCode.Alpha1)) {
 			BeginFade(1);
-			Application.LoadLevel (0); 
+			Application.LoadLevel (0); //U
 			OnLevelWasLoaded();
 			
 		}
 		if (Input.GetKeyDown (KeyCode.Alpha2)) {
 			BeginFade(1);
-			Application.LoadLevel (1); 
+			Application.LoadLevel (1); //M
 			OnLevelWasLoaded();
 		}
 		if (Input.GetKeyDown (KeyCode.Alpha3)) {
 			BeginFade(1);
-			Application.LoadLevel (2); 
+			Application.LoadLevel (2); //F
+			OnLevelWasLoaded();
+			
+		}
+		if (Input.GetKeyDown (KeyCode.Alpha4)) {
+			BeginFade(1);
+			Application.LoadLevel (3); //U
+			OnLevelWasLoaded();
+			
+		}
+		if (Input.GetKeyDown (KeyCode.Alpha5)) {
+			BeginFade(1);
+			Application.LoadLevel (4); //M
+			OnLevelWasLoaded();
+		}
+		if (Input.GetKeyDown (KeyCode.Alpha6)) {
+			BeginFade(1);
+			Application.LoadLevel (5); //F
 			OnLevelWasLoaded();
 			
 		}
