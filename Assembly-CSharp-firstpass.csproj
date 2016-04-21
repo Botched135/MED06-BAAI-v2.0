@@ -100,6 +100,7 @@
      <Compile Include="Assets\Standard Assets\Utility\WaypointProgressTracker.cs" />
      <None Include="Assets\Model\FliesSystem\Example\Standard Assets\Projectors\Sources\Shaders\Projector Multiply.shader" />
      <None Include="Assets\XInputUnity\Assets\XInputDotNet\MITLicense.txt" />
+     <None Include="Assets\Piplay\Male Base Character\Docs\MaleCharacterAnimation.txt" />
      <None Include="Assets\Model\PB_Spider\readme.txt" />
      <None Include="Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAlpha.shader" />
      <None Include="Assets\Standard Assets\ParticleSystems\ParticleSystemsGuidelines.txt" />
