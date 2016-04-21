@@ -72,7 +72,7 @@ public class MonsterU : Monster {
                 {
                     if (hit.collider.gameObject == player)
                     {
-                        Debug.Log("NOTICE ME SENPAI!");
+                        
                         seenPlayer = true;
                         StopCoroutine(LookingSequence());
 
