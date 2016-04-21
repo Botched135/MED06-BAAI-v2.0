@@ -51,16 +51,25 @@ public class UDPClient : MonoBehaviour{
 
                 if (received_data != null)
                 {
-                    float GSR=0, BPM=0, BaseLine= 0;
+
+                    Debug.Log(received_data);   
+                    float GSR=0, BPM=0, BaseLine= 0, Difference=0;
+                    string tryDiffernce;
                     int firstSpaceIndex = received_data.IndexOf(" ", 0);
                     int secondSpaceIndex = received_data.IndexOf(" ", firstSpaceIndex+1);
+                    int thirdSpaceIndex = received_data.IndexOf(" ", secondSpaceIndex + 1);
 
                     GSR = float.Parse(received_data.Substring(0, firstSpaceIndex));
                     BaseLine = float.Parse(received_data.Substring(firstSpaceIndex + 1, secondSpaceIndex - firstSpaceIndex));
-                    BPM = float.Parse(received_data.Substring(secondSpaceIndex + 1));
+                    BPM = float.Parse(received_data.Substring(secondSpaceIndex + 1, thirdSpaceIndex - secondSpaceIndex));
+                    tryDiffernce = received_data.Substring(thirdSpaceIndex + 1);
+                   /* if (!tryDiffernce.Equals("WaitForHeartBeat"))
+                        Difference = float.Parse(tryDiffernce);*/
                     DataHolder.BPM = BPM;
                     DataHolder.Baseline = BaseLine;
                     DataHolder.GSR = GSR;
+                   // DataHolder.Difference = Difference;
+                    
                 
 
                 }

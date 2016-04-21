@@ -94,6 +94,7 @@
     <Compile Include="Assets\Scripts\MovingMeat.cs" />
     <Compile Include="Assets\Scripts\NewBehaviourScript.cs" />
     <Compile Include="Assets\Scripts\RedLight.cs" />
+    <Compile Include="Assets\Scripts\RespawnEnemy.cs" />
     <Compile Include="Assets\Scripts\Rumble.cs" />
     <Compile Include="Assets\Scripts\SpiderMovement.cs" />
     <Compile Include="Assets\Scripts\SpiderMovementLeft.cs" />
@@ -112,6 +113,10 @@
     <None Include="Assets\Standard Assets\Characters\RollerBall\RollerBallGuidelines.txt" />
     <None Include="Assets\Standard Assets\Characters\ThirdPersonCharacter\ThirdPersonCharacterGuidelines.txt" />
     <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
+    <None Include="Assets\Standard Assets\ParticleSystems\ParticleSystemsGuidelines.txt" />
+    <None Include="Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAdd.shader" />
+    <None Include="Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAddSoft.shader" />
+    <None Include="Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAlpha.shader" />
     <None Include="Assets\XInputUnity\Assets\XInputDotNet\MITLicense.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
