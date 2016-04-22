@@ -119,6 +119,7 @@
   <ItemGroup>
     <None Include="Assets\Model\FliesSystem\Example\Standard Assets\Projectors\Sources\Shaders\Projector Multiply.shader" />
     <None Include="Assets\Model\PB_Spider\readme.txt" />
+    <None Include="Assets\Piplay\Male Base Character\Docs\MaleCharacterAnimation.txt" />
     <None Include="Assets\Standard Assets\Characters\FirstPersonCharacter\FirstPersonCharacterGuidelines.txt" />
     <None Include="Assets\Standard Assets\Characters\RollerBall\RollerBallGuidelines.txt" />
     <None Include="Assets\Standard Assets\Characters\ThirdPersonCharacter\ThirdPersonCharacterGuidelines.txt" />
