@@ -1,10 +1,17 @@
 fileFormatVersion: 2
 guid: 5f45c1cd52af78f43b0f116fc20628ac
-timeCreated: 1459770921
+timeCreated: 1461247628
 licenseType: Free
 MonoImporter:
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - nav: {instanceID: 0}
+  - spawnActivator: {instanceID: 0}
+  - anim: {instanceID: 0}
+  - col: {instanceID: 0}
+  - player: {instanceID: 0}
+  - pivotPoint: {instanceID: 0}
+  - teleportSound: {fileID: 8300000, guid: f891b771b41efde4196a8fdabe7f3568, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

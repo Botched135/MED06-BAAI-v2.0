@@ -58,12 +58,6 @@
     <Reference Include="UnityEngine.Networking">
       <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.Networking">
-      <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UI">
-      <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEditor">
       <HintPath>Library\UnityAssemblies\UnityEditor.dll</HintPath>
     </Reference>
@@ -82,9 +76,6 @@
     <Compile Include="Assets\EnemySight.cs" />
     <Compile Include="Assets\MannequineScript.cs" />
     <Compile Include="Assets\Model\FliesSystem\Example\Standard Assets\Character Controllers\Sources\Scripts\MouseLook.cs" />
-    <Compile Include="Assets\Model\FliesSystem\Scripts\Drawers\MinMaxSliderAttribute.cs" />
-    <Compile Include="Assets\Model\FliesSystem\Scripts\Drawers\MinMaxSliderDrawer.cs" />
-    <Compile Include="Assets\Model\FliesSystem\Scripts\FliesSystem.cs" />
     <Compile Include="Assets\Model\FliesSystem\Scripts\Fly.cs" />
     <Compile Include="Assets\Monster.cs" />
     <Compile Include="Assets\MonsterF.cs" />
@@ -96,10 +87,15 @@
     <Compile Include="Assets\Scripts\Elevator.cs" />
     <Compile Include="Assets\Scripts\Fading.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
+    <Compile Include="Assets\Scripts\Howl.cs" />
     <Compile Include="Assets\Scripts\LightFlicker.cs" />
+    <Compile Include="Assets\Scripts\MonsterFSound.cs" />
+    <Compile Include="Assets\Scripts\MonsterMSound.cs" />
+    <Compile Include="Assets\Scripts\MonsterUSound.cs" />
     <Compile Include="Assets\Scripts\MovingMeat.cs" />
     <Compile Include="Assets\Scripts\NewBehaviourScript.cs" />
     <Compile Include="Assets\Scripts\RedLight.cs" />
+    <Compile Include="Assets\Scripts\RespawnEnemy.cs" />
     <Compile Include="Assets\Scripts\Rumble.cs" />
     <Compile Include="Assets\Scripts\SpiderMovement.cs" />
     <Compile Include="Assets\Scripts\SpiderMovementLeft.cs" />
@@ -118,6 +114,10 @@
     <None Include="Assets\Standard Assets\Characters\RollerBall\RollerBallGuidelines.txt" />
     <None Include="Assets\Standard Assets\Characters\ThirdPersonCharacter\ThirdPersonCharacterGuidelines.txt" />
     <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
+    <None Include="Assets\Standard Assets\ParticleSystems\ParticleSystemsGuidelines.txt" />
+    <None Include="Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAdd.shader" />
+    <None Include="Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAddSoft.shader" />
+    <None Include="Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAlpha.shader" />
     <None Include="Assets\XInputUnity\Assets\XInputDotNet\MITLicense.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />

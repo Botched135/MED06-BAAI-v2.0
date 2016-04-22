@@ -4,8 +4,17 @@ using System.Collections;
 public class MonsterU : Monster {
     private Vector3 TeleportVector;
     private bool trigger;
-	// Use this for initialization
-	void Start () {
+
+    //Soundclips
+    public AudioClip teleportSound;
+    public AudioClip giggle01;
+    public AudioClip giggle02;
+    public AudioClip giggle03;
+    public AudioClip giggle04;
+    public bool firstTimeSeenPlayer = true;
+
+    // Use this for initialization
+    void Start () {
         trigger = false;
         anim = GetComponent<Animator>();
         Directions = GameObject.FindGameObjectsWithTag("Front");
@@ -14,6 +23,7 @@ public class MonsterU : Monster {
         nav = GetComponent<NavMeshAgent>();
         nav.speed = 0.75f;
 
+       
 
         rotationTime = 3f;
 
@@ -52,9 +62,15 @@ public class MonsterU : Monster {
             nav.SetDestination(playerPosition);
             nav.Resume();
             Attack();
+
+           
+
         }
         else if (!seenPlayer)
             Move();
+
+
+        
 
     }
     public void OnTriggerStay(Collider other) //EnemySight - should use base keyword in children classes
@@ -84,14 +100,26 @@ public class MonsterU : Monster {
 
     public override void NoticePlayer()
     {
-        //play soundtrack of noticing the player 
-    }
+        //play soundtrack of noticing the player
+        // Jacob - Måske skal vi ændre ambience om til musik når man bliver set af et monster
+        if (firstTimeSeenPlayer)
+        {
+            AudioSource.PlayClipAtPoint(giggle03, transform.position);
+            firstTimeSeenPlayer = false;
+        }
+
+
+}
     private IEnumerator Teleport()
     {
         
         yield return new WaitForSeconds(5f);
+
         //soundfile play for teleport
+        AudioSource.PlayClipAtPoint(teleportSound, transform.position);
+
         transform.position = new Vector3(playerPosition.x-(TeleportVector.x/2), transform.position.y, playerPosition.z-(TeleportVector.z / 2));
+
         StartCoroutine(Teleport());
     }
 }
