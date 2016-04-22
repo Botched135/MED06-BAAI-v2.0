@@ -3,6 +3,14 @@ using System.Collections;
 
 public class MonsterM : Monster {
 
+
+	//Soundclips etc
+	public AudioClip laugh01;
+    public AudioClip laugh02;
+    public AudioClip laugh03;
+    public bool firstTimeSeenPlayer = true;
+    int select = 1;
+
 	// Use this for initialization
 	void Start () {
         anim = GetComponent<Animator>();
@@ -70,8 +78,36 @@ public class MonsterM : Monster {
         else if (!seenPlayer)
             Move();
     }
+
+
+    public IEnumerator laugh()
+    {
+       
+            yield return new WaitForSeconds(8f);
+            switch (select)
+            {
+                case 1:
+                    AudioSource.PlayClipAtPoint(laugh01, transform.position);
+                    break;
+                case 2:
+                    AudioSource.PlayClipAtPoint(laugh02, transform.position);
+                    break;
+                case 3:
+                    AudioSource.PlayClipAtPoint(laugh03, transform.position);
+                    break;
+            }
+            select++;
+            if (select == 4) { select = 1; }
+            
+        
+    }
+
     public override void NoticePlayer()
     {
        //play sound
+    	if(firstTimeSeenPlayer){
+    	 AudioSource.PlayClipAtPoint(laugh03, transform.position);
+    	 firstTimeSeenPlayer=false;
+    	}
     }
 }
