@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 5f45c1cd52af78f43b0f116fc20628ac
-timeCreated: 1461247628
+timeCreated: 1461322961
 licenseType: Free
 MonoImporter:
   serializedVersion: 2
@@ -12,6 +12,10 @@ MonoImporter:
   - player: {instanceID: 0}
   - pivotPoint: {instanceID: 0}
   - teleportSound: {fileID: 8300000, guid: f891b771b41efde4196a8fdabe7f3568, type: 3}
+  - giggle01: {fileID: 8300000, guid: a01a1306b325f4c40a3ade435a7e72d6, type: 3}
+  - giggle02: {fileID: 8300000, guid: 5d4a37e02a1423a4492fb735bd51fc74, type: 3}
+  - giggle03: {instanceID: 0}
+  - giggle04: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

@@ -12,6 +12,7 @@ public class MonsterU : Monster {
     public AudioClip giggle03;
     public AudioClip giggle04;
     public bool firstTimeSeenPlayer = true;
+    int select = 1;
 
     // Use this for initialization
     void Start () {
@@ -52,7 +53,9 @@ public class MonsterU : Monster {
             if (!trigger)
             {
                 StartCoroutine(Teleport());
+                StartCoroutine(giggle());
                 trigger = true;
+                
             }
             anim.SetBool("SeenPlayer", true);
             nav.speed = 1.25f;
@@ -62,17 +65,39 @@ public class MonsterU : Monster {
             nav.SetDestination(playerPosition);
             nav.Resume();
             Attack();
-
-           
-
+        
         }
         else if (!seenPlayer)
             Move();
 
-
-        
-
+    
     }
+
+    public IEnumerator giggle()
+    {
+       
+            yield return new WaitForSeconds(8f);
+            switch (select)
+            {
+                case 1:
+                    AudioSource.PlayClipAtPoint(giggle01, transform.position);
+                    break;
+                case 2:
+                    AudioSource.PlayClipAtPoint(giggle02, transform.position);
+                    break;
+                case 3:
+                    AudioSource.PlayClipAtPoint(giggle03, transform.position);
+                    break;
+                case 4:
+                    AudioSource.PlayClipAtPoint(giggle04, transform.position);
+                    break;
+            }
+            select++;
+            if (select == 5) { select = 1; }
+            
+        
+    }
+
     public void OnTriggerStay(Collider other) //EnemySight - should use base keyword in children classes
     {
         if (other.gameObject == player)
