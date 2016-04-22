@@ -98,6 +98,7 @@
      <Compile Include="Assets\Standard Assets\Utility\TimedObjectDestructor.cs" />
      <Compile Include="Assets\Standard Assets\Utility\WaypointCircuit.cs" />
      <Compile Include="Assets\Standard Assets\Utility\WaypointProgressTracker.cs" />
+     <None Include="Assets\ghoul\shader\ghoulshader.shader" />
      <None Include="Assets\Model\FliesSystem\Example\Standard Assets\Projectors\Sources\Shaders\Projector Multiply.shader" />
      <None Include="Assets\XInputUnity\Assets\XInputDotNet\MITLicense.txt" />
      <None Include="Assets\Piplay\Male Base Character\Docs\MaleCharacterAnimation.txt" />
