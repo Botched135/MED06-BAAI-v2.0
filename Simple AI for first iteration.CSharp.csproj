@@ -120,6 +120,7 @@
     <None Include="Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAddSoft.shader" />
     <None Include="Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAlpha.shader" />
     <None Include="Assets\XInputUnity\Assets\XInputDotNet\MITLicense.txt" />
+    <None Include="Assets\ghoul\shader\ghoulshader.shader" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>
