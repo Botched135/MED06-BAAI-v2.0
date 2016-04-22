@@ -79,6 +79,7 @@
      <Compile Include="Assets\XInputDotNetPure\Properties\AssemblyInfo.cs" />
      <Compile Include="Assets\XInputDotNetPure\Utils.cs" />
      <Compile Include="Assets\XInputUnity\Assets\XInputDotNet\Examples\XInputTestCS.cs" />
+     <None Include="Assets\ghoul\shader\ghoulshader.shader" />
      <None Include="Assets\Model\FliesSystem\Example\Standard Assets\Projectors\Sources\Shaders\Projector Multiply.shader" />
      <None Include="Assets\XInputUnity\Assets\XInputDotNet\MITLicense.txt" />
      <None Include="Assets\Piplay\Male Base Character\Docs\MaleCharacterAnimation.txt" />
