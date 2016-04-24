@@ -72,36 +72,30 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\EnemyMovement.cs" />
-    <Compile Include="Assets\EnemySight.cs" />
-    <Compile Include="Assets\MannequineScript.cs" />
     <Compile Include="Assets\Model\FliesSystem\Example\Standard Assets\Character Controllers\Sources\Scripts\MouseLook.cs" />
     <Compile Include="Assets\Model\FliesSystem\Scripts\Fly.cs" />
-    <Compile Include="Assets\Monster.cs" />
-    <Compile Include="Assets\MonsterF.cs" />
-    <Compile Include="Assets\MonsterM.cs" />
-    <Compile Include="Assets\MonsterU.cs" />
-    <Compile Include="Assets\PlayerScripts\PlayerSight.cs" />
-    <Compile Include="Assets\Scripts\Ambient.cs" />
-    <Compile Include="Assets\Scripts\Chains.cs" />
-    <Compile Include="Assets\Scripts\Elevator.cs" />
-    <Compile Include="Assets\Scripts\Fading.cs" />
-    <Compile Include="Assets\Scripts\GameManager.cs" />
-    <Compile Include="Assets\Scripts\Howl.cs" />
-    <Compile Include="Assets\Scripts\LightFlicker.cs" />
-    <Compile Include="Assets\Scripts\MonsterFSound.cs" />
-    <Compile Include="Assets\Scripts\MonsterMSound.cs" />
-    <Compile Include="Assets\Scripts\MonsterUSound.cs" />
-    <Compile Include="Assets\Scripts\MovingMeat.cs" />
-    <Compile Include="Assets\Scripts\NewBehaviourScript.cs" />
-    <Compile Include="Assets\Scripts\RedLight.cs" />
-    <Compile Include="Assets\Scripts\RespawnEnemy.cs" />
-    <Compile Include="Assets\Scripts\Rumble.cs" />
-    <Compile Include="Assets\Scripts\SpiderMovement.cs" />
-    <Compile Include="Assets\Scripts\SpiderMovementLeft.cs" />
-    <Compile Include="Assets\SpawnEnemy.cs" />
-    <Compile Include="Assets\UDPclient\DataHolder.cs" />
-    <Compile Include="Assets\UDPclient\UDPClient.cs" />
+    <Compile Include="Assets\Scripts\Elements\Chains.cs" />
+    <Compile Include="Assets\Scripts\Elements\MannequineScript.cs" />
+    <Compile Include="Assets\Scripts\Elements\SpiderMovement.cs" />
+    <Compile Include="Assets\Scripts\Elements\SpiderMovementLeft.cs" />
+    <Compile Include="Assets\Scripts\Environment\Elevator.cs" />
+    <Compile Include="Assets\Scripts\Environment\MovingMeat.cs" />
+    <Compile Include="Assets\Scripts\Environment\Sound\Ambient.cs" />
+    <Compile Include="Assets\Scripts\Environment\Sound\Howl.cs" />
+    <Compile Include="Assets\Scripts\Lights\LightFlicker.cs" />
+    <Compile Include="Assets\Scripts\Lights\RedLight.cs" />
+    <Compile Include="Assets\Scripts\Management\Fading.cs" />
+    <Compile Include="Assets\Scripts\Management\GameManager.cs" />
+    <Compile Include="Assets\Scripts\Monster\Monster.cs" />
+    <Compile Include="Assets\Scripts\Monster\MonsterF.cs" />
+    <Compile Include="Assets\Scripts\Monster\MonsterM.cs" />
+    <Compile Include="Assets\Scripts\Monster\MonsterU.cs" />
+    <Compile Include="Assets\Scripts\Monster\RespawnEnemy.cs" />
+    <Compile Include="Assets\Scripts\Monster\SpawnEnemy.cs" />
+    <Compile Include="Assets\Scripts\Player\PlayerSight.cs" />
+    <Compile Include="Assets\Scripts\Player\Rumble.cs" />
+    <Compile Include="Assets\Scripts\UDPclient\DataHolder.cs" />
+    <Compile Include="Assets\Scripts\UDPclient\UDPClient.cs" />
     <Compile Include="Assets\XInputDotNetPure\GamePad.cs" />
     <Compile Include="Assets\XInputDotNetPure\Properties\AssemblyInfo.cs" />
     <Compile Include="Assets\XInputDotNetPure\Utils.cs" />
@@ -110,7 +104,7 @@
   <ItemGroup>
     <None Include="Assets\Model\FliesSystem\Example\Standard Assets\Projectors\Sources\Shaders\Projector Multiply.shader" />
     <None Include="Assets\Model\PB_Spider\readme.txt" />
-    <None Include="Assets\Piplay\Male Base Character\Docs\MaleCharacterAnimation.txt" />
+    <None Include="Assets\Model\ghoul\shader\ghoulshader.shader" />
     <None Include="Assets\Standard Assets\Characters\FirstPersonCharacter\FirstPersonCharacterGuidelines.txt" />
     <None Include="Assets\Standard Assets\Characters\RollerBall\RollerBallGuidelines.txt" />
     <None Include="Assets\Standard Assets\Characters\ThirdPersonCharacter\ThirdPersonCharacterGuidelines.txt" />
@@ -120,7 +114,6 @@
     <None Include="Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAddSoft.shader" />
     <None Include="Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAlpha.shader" />
     <None Include="Assets\XInputUnity\Assets\XInputDotNet\MITLicense.txt" />
-    <None Include="Assets\ghoul\shader\ghoulshader.shader" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>
