@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using UnityEngine;
 using UnityEditor;
 
@@ -137,4 +138,4 @@ public class FliesSystemEditor : Editor {
 		instance.ApplyModifiedProperties();
 	}
 }
-
+#endif

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿#if UNITY_EDITOR
+using UnityEngine;
 using UnityEditor;
 
 public class FliesSystemMenu : Editor {
@@ -31,3 +32,4 @@ public class FliesSystemMenu : Editor {
 		}
 	}
 }
+#endif
