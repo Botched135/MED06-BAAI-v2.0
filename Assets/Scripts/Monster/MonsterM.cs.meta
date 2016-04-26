@@ -1,10 +1,19 @@
 fileFormatVersion: 2
 guid: 0dcfd953862f2dd47a98851ce937352e
-timeCreated: 1459928716
+timeCreated: 1461666550
 licenseType: Free
 MonoImporter:
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - nav: {instanceID: 0}
+  - spawnActivator: {instanceID: 0}
+  - anim: {instanceID: 0}
+  - col: {instanceID: 0}
+  - player: {instanceID: 0}
+  - pivotPoint: {instanceID: 0}
+  - laugh01: {fileID: 8300000, guid: ec77758de272ae640a5b92c1c823b020, type: 3}
+  - scream01: {fileID: 8300000, guid: 3928181461901c54b8c1d8658900b73a, type: 3}
+  - scream02: {fileID: 8300000, guid: 646ecc205cad26f47afa4041ad3a973b, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

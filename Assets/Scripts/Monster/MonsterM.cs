@@ -3,16 +3,17 @@ using System.Collections;
 
 public class MonsterM : Monster {
 
-
-	//Soundclips etc
-	public AudioClip laugh01;
-    public AudioClip laugh02;
-    public AudioClip laugh03;
+    private bool trigger;
+    //Soundclips etc
+    public AudioClip laugh01;
+    public AudioClip scream01;
+    public AudioClip scream02;
     public bool firstTimeSeenPlayer = true;
     int select = 1;
 
 	// Use this for initialization
 	void Start () {
+        trigger = false;
         anim = GetComponent<Animator>();
         Directions = GameObject.FindGameObjectsWithTag("Front");
         wayPointIndex = 0;
@@ -69,11 +70,17 @@ public class MonsterM : Monster {
             anim.SetBool("SeenPlayer", true);
             nav.speed = 2;
             NoticePlayer();
-
-
             nav.SetDestination(playerPosition);
             nav.Resume();
             Attack();
+
+            if (!trigger)
+            {
+                StartCoroutine(laugh());
+                trigger = true;
+
+            }
+
         }
         else if (!seenPlayer)
             Move();
@@ -83,21 +90,19 @@ public class MonsterM : Monster {
     public IEnumerator laugh()
     {
        
-            yield return new WaitForSeconds(8f);
+            yield return new WaitForSeconds(4f);
             switch (select)
             {
                 case 1:
-                    AudioSource.PlayClipAtPoint(laugh01, transform.position);
+                    AudioSource.PlayClipAtPoint(scream01, transform.position);
                     break;
                 case 2:
-                    AudioSource.PlayClipAtPoint(laugh02, transform.position);
+                    AudioSource.PlayClipAtPoint(scream02, transform.position);
                     break;
-                case 3:
-                    AudioSource.PlayClipAtPoint(laugh03, transform.position);
-                    break;
+                
             }
             select++;
-            if (select == 4) { select = 1; }
+            if (select == 3) { select = 1; }
             
         
     }
@@ -106,7 +111,7 @@ public class MonsterM : Monster {
     {
        //play sound
     	if(firstTimeSeenPlayer){
-    	 AudioSource.PlayClipAtPoint(laugh03, transform.position);
+    	 AudioSource.PlayClipAtPoint(laugh01, transform.position);
     	 firstTimeSeenPlayer=false;
     	}
     }
