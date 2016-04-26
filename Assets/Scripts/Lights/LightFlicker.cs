@@ -4,8 +4,8 @@ using System.Collections;
 public class LightFlicker : MonoBehaviour {
 
 public float flickerInterval = 0.01f;
-	public float minLightLevel = 0.45f;
-	public float maxLightLevel = 0.75f;
+	public float minLightLevel = 0f;
+	public float maxLightLevel = 1f;
 
 	private float randomRange;
 	private float flickerTimer;
