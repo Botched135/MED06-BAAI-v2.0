@@ -53,6 +53,7 @@
      <Compile Include="Assets\Model\FliesSystem\Example\Standard Assets\Character Controllers\Sources\Scripts\MouseLook.cs" />
      <Compile Include="Assets\Model\FliesSystem\Scripts\Fly.cs" />
      <Compile Include="Assets\Scripts\Elements\Chains.cs" />
+     <Compile Include="Assets\Scripts\Elements\EventTriggerZone.cs" />
      <Compile Include="Assets\Scripts\Elements\MannequineScript.cs" />
      <Compile Include="Assets\Scripts\Elements\SpiderMovement.cs" />
      <Compile Include="Assets\Scripts\Elements\SpiderMovementLeft.cs" />
@@ -78,6 +79,7 @@
      <Compile Include="Assets\XInputDotNetPure\Properties\AssemblyInfo.cs" />
      <Compile Include="Assets\XInputDotNetPure\Utils.cs" />
      <Compile Include="Assets\XInputUnity\Assets\XInputDotNet\Examples\XInputTestCS.cs" />
+     <Compile Include="Assets\uSoundRip.cs" />
      <None Include="Assets\Model\ghoul\shader\ghoulshader.shader" />
      <None Include="Assets\Model\FliesSystem\Example\Standard Assets\Projectors\Sources\Shaders\Projector Multiply.shader" />
      <None Include="Assets\XInputUnity\Assets\XInputDotNet\MITLicense.txt" />

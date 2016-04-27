@@ -3,20 +3,25 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class PlayerSight : MonoBehaviour {
-    private float fieldOfViewAngle = 120f;
+    public float fieldOfViewAngle = 120f;
     private float angle;
     private Vector3 direction;
     private GameObject[] PreMannequines;
     private List<GameObject> Mannequines;
-    private SphereCollider col;
+    public SphereCollider col;
+    private MannequineScript MannequineScript;
 
     public bool mannequineSeen;
 	// Use this for initialization
 	void Awake () {
+        col = gameObject.GetComponent<SphereCollider>();
         Mannequines = new List<GameObject>();
         PreMannequines = GameObject.FindGameObjectsWithTag("Mannequine");
-        Mannequines.Add(PreMannequines[0]);
-        
+
+        for (int i = 0; i < PreMannequines.Length; i++)
+        {
+            Mannequines.Add(PreMannequines[i]);
+        }
 
 	}
 	
@@ -33,7 +38,7 @@ public class PlayerSight : MonoBehaviour {
                 RaycastHit hit;
                 if (Physics.Raycast(transform.position, direction, out hit))
                 {
-                    Debug.DrawRay(transform.position, direction, Color.red);
+                    
                     if (Mannequines.Contains(hit.collider.gameObject))
                     {
                         mannequineSeen = true;
