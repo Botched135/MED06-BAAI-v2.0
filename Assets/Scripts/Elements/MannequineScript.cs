@@ -4,21 +4,64 @@ using System.Collections;
 public class MannequineScript : MonoBehaviour {
     private PlayerSight PlayerSight;
     private GameObject Player;
-    private Vector3 direction;
-    private Vector3[] teleportPoints;
+    public AudioClip teleportSound;
+    public int numberMan;
+    private Vector3 []direction = new Vector3[4];
+    private Vector3 tempVec;
+    public GameObject[] Mannequnies = new GameObject[4];
+    private Vector3[,] teleportPoints = new Vector3[4,6];
+    private GameObject[] TPGameObject = new GameObject[6];
+    public BoxCollider[] TPCoorsCollider = new BoxCollider[6];
+    private Vector3[] temp = new Vector3[4];
     public float maxDistance;
-	
-	void Awake () {
+    private Vector3 TPDirections;
+	void Start(){
         Player = GameObject.FindGameObjectWithTag("MainCamera");
         PlayerSight = Player.GetComponent<PlayerSight>();
-        maxDistance = 10f;
+        maxDistance = 12f;
+    }
+	void OnEnable () {
+        TPGameObject = GameObject.FindGameObjectsWithTag("TPCoors"+numberMan);
+        for (int i = 0; i < TPCoorsCollider.Length; i++)
+        {
+            TPCoorsCollider[i] = TPGameObject[i].GetComponent<BoxCollider>();
+        }
+        Player = GameObject.FindGameObjectWithTag("MainCamera");
+        PlayerSight = Player.GetComponent<PlayerSight>();
+        
+        for (int i = 0; i < Mannequnies.Length; i++)
+        {
+            TPGameObject = GameObject.FindGameObjectsWithTag("TPSet"+(i+1));
+            for (int j = 0; j < TPGameObject.Length; j++)
+            {
+                teleportPoints[i, j] = TPGameObject[j].transform.position;
+            }
+        }
+        for (int i = 0; i < temp.Length; i++)
+        {
+            temp[i] = teleportPoints[i, 0];
+        }
+        
+        for (int i = 0; i < Mannequnies.Length; i++)
+        {
+            direction[i] = Player.transform.position - Mannequnies[i].transform.position;
+        }
+        tempVec = direction[0];
 
-	
-	}
+        TPDirections =  TPCoorsCollider[0].gameObject.transform.position -Player.transform.position;
+
+
+    }
 	
 	void Update () {
-        direction = Player.transform.position - transform.position;
-        if(!PlayerSight.mannequineSeen && direction.sqrMagnitude > maxDistance * maxDistance)
+
+        for (int i = 0; i < Mannequnies.Length; i++)
+        {
+            direction[i] = Player.transform.position - Mannequnies[i].transform.position;
+        }
+        Evaluate();
+
+        if(!PlayerSight.mannequineSeen && tempVec.sqrMagnitude > maxDistance * maxDistance)
         {
             Teleport();
         }
@@ -26,9 +69,66 @@ public class MannequineScript : MonoBehaviour {
 
     void Teleport()
     {
-        transform.position = new Vector3(Player.transform.position.x, Player.transform.position.y, Player.transform.position.z-2);
-        transform.rotation = Quaternion.LookRotation(direction, Vector3.up);
 
+
+        for (int i = 0; i < Mannequnies.Length; i++)
+        {
+            for (int j = 0; j < TPGameObject.Length; j++)
+            {
+                float distance1 = (Player.transform.position - temp[i]).sqrMagnitude;
+                float distance2 = (Player.transform.position - teleportPoints[i, j]).sqrMagnitude;
+                if (distance1 > distance2)
+                {
+
+                    temp[i] = teleportPoints[i, j];
+
+                }
+                TPDirections = TPCoorsCollider[i].gameObject.transform.position - Player.transform.position;
+                float angle = Vector3.Angle(TPDirections, Vector3.forward);
+
+                if (angle < PlayerSight.fieldOfViewAngle * 0.5)
+                {
+                    RaycastHit hit;
+
+                    if (Physics.Raycast(Player.transform.position, TPDirections, out hit))
+                    {
+                        
+                        for (int y = 0; y < TPCoorsCollider.Length; y++)
+                        {
+                            if (hit.collider == TPCoorsCollider[i])
+                            {
+                                return; 
+                            }
+                        }
+
+
+                    }
+
+                }
+                    
+
+
+
+            }
+            Mannequnies[i].transform.position = new Vector3(temp[i].x, 1.5f, temp[i].z);
+            Mannequnies[i].transform.rotation = Quaternion.LookRotation(Player.gameObject.transform.position, Vector3.up);
+            
+
+        }
+        AudioSource.PlayClipAtPoint(teleportSound, Mannequnies[0].transform.position,0.3f);
+    }
+    void Evaluate()
+    {
+        for (int i = 0; i < direction.Length; i++)
+        {
+            float distance1 = tempVec.sqrMagnitude;
+            float distance2 = direction[i].sqrMagnitude;
+
+            if (distance2 < distance1)
+                tempVec = direction[i];
+            else
+                tempVec = direction[0];
+        }
 
     }
 }
