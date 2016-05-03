@@ -26,7 +26,7 @@ public class SpiderMovementLeft : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		Debug.Log(""+MovingUp);
+
 		if(MovingUp == false){
 			if(transform.position.y>=-3f && transform.position.y<=4f){
 				transform.position = new Vector3 (x, y,z);
