@@ -61,18 +61,17 @@ public class UDPClient : MonoBehaviour{
                     int secondSpaceIndex = received_data.IndexOf(" ", firstSpaceIndex+1);
                     int thirdSpaceIndex = received_data.IndexOf(" ", secondSpaceIndex + 1);
                     int fouthSpaceIndex = received_data.IndexOf(" ", thirdSpaceIndex + 1);
+
                     time = float.Parse(received_data.Substring(0, firstSpaceIndex));
                     GSR = float.Parse(received_data.Substring(firstSpaceIndex + 1, secondSpaceIndex - firstSpaceIndex));
                     BaseLine = float.Parse(received_data.Substring(secondSpaceIndex + 1, thirdSpaceIndex - secondSpaceIndex));
                     BPM = float.Parse(received_data.Substring(thirdSpaceIndex + 1,fouthSpaceIndex-thirdSpaceIndex));
                     HRD = float.Parse(received_data.Substring(fouthSpaceIndex + 1));
-                    if(HRD > 0)
+
+                    if (HRD > 0)
                     {
-                        rumble.Shake(0);
-                    }
-                   // DataHolder.Difference = Difference;
-                    
-                
+                        rumble.Shake(Mathf.Abs(GSR-BaseLine));
+                    }               
 
                 }
             }
