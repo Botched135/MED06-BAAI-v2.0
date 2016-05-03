@@ -47,20 +47,20 @@ public class Rumble : MonoBehaviour {
         state = GamePad.GetState(playerIndex);
 
         GamePad.SetVibration(playerIndex, 0, x);
-        
-    if(timer<maxTime && timer>0 && startTimer){
+        Debug.Log(x);
+        if (timer<maxTime && timer>0 && startTimer){
         x = 0.0f;
+            
             startTimer = false;
 
         
 
     }
     }
-    public void Shake(PlayerIndex index)
+    public void Shake(float y)
     {
         Debug.Log("SHAKE");
-        //transform.localRotation *= Quaternion.Euler(0.0f, 100.0f, 0.0f);
-        x = 0.10f;
+        this.x = 0.05f + (0.005f * y); //0.10f
         timer = -5;
         startTimer = true;
     }
