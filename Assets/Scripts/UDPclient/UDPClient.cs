@@ -7,6 +7,7 @@ using System.Text;
 
 public class UDPClient : MonoBehaviour{
 
+    private Rumble playerRumble;
     const int CONFIG_PORT = 9876;
     const string CONFIG_IP = "127.0.0.1";
     Thread receiveThread;
@@ -14,15 +15,15 @@ public class UDPClient : MonoBehaviour{
 
     Vector3 position;
 
-	// Use this for initialization
-	void Start () {
-
+    // Use this for initialization
+    void Start () {
+        playerRumble = GetComponent<Rumble>();
         init();
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	}
+    }
+    
+    // Update is called once per frame
+    void Update () {
+    }
 
     private void init()
     {
@@ -52,22 +53,20 @@ public class UDPClient : MonoBehaviour{
                 if (received_data != null)
                 {
 
-                    Debug.Log(received_data);   
+                     
                     float GSR=0, BPM=0, BaseLine= 0, Difference=0;
                     string tryDiffernce;
                     int firstSpaceIndex = received_data.IndexOf(" ", 0);
                     int secondSpaceIndex = received_data.IndexOf(" ", firstSpaceIndex+1);
-                    int thirdSpaceIndex = received_data.IndexOf(" ", secondSpaceIndex + 1);
+                    //int thirdSpaceIndex = received_data.IndexOf(" ", secondSpaceIndex + 1);
 
                     GSR = float.Parse(received_data.Substring(0, firstSpaceIndex));
                     BaseLine = float.Parse(received_data.Substring(firstSpaceIndex + 1, secondSpaceIndex - firstSpaceIndex));
-                    BPM = float.Parse(received_data.Substring(secondSpaceIndex + 1, thirdSpaceIndex - secondSpaceIndex));
-                    tryDiffernce = received_data.Substring(thirdSpaceIndex + 1);
-                   /* if (!tryDiffernce.Equals("WaitForHeartBeat"))
-                        Difference = float.Parse(tryDiffernce);*/
-                    DataHolder.BPM = BPM;
-                    DataHolder.Baseline = BaseLine;
-                    DataHolder.GSR = GSR;
+                    BPM = float.Parse(received_data.Substring(secondSpaceIndex + 1)); // thirdSpaceIndex - secondSpaceIndex
+                                                                                      // tryDiffernce = received_data.Substring(thirdSpaceIndex + 1);
+                                                                                      /* if (!tryDiffernce.Equals("WaitForHeartBeat"))
+                                                                                           Difference = float.Parse(tryDiffernce);*/
+                    playerRumble.BPM = BPM;
                    // DataHolder.Difference = Difference;
                     
                 

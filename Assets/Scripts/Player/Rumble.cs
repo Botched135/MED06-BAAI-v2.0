@@ -5,6 +5,8 @@ using XInputDotNetPure; // Required in C#
 
 public class Rumble : MonoBehaviour {
 
+    
+    public float BPM, preBPM;
     bool playerIndexSet = false;
     PlayerIndex playerIndex;
     GamePadState state;
@@ -12,19 +14,13 @@ public class Rumble : MonoBehaviour {
     float x;
 
     //
-    public int timer = 0;
-    int maxTime = 15;
+    public float timer = 0;
+    float maxTime;
 
-    // Use this for initialization
-    void Start()
-    {
-        // No need to initialize anything for the plugin
-    }
-
-    // Update is called once per frame
     void Update()
     {
-    	timer++;
+        maxTime = 60/BPM;
+        timer += Time.deltaTime;
         // Find a PlayerIndex, for a single player game
         // Will find the first controller that is connected ans use it
         if (!playerIndexSet || !prevState.IsConnected)
@@ -41,20 +37,20 @@ public class Rumble : MonoBehaviour {
                 }
             }
         }
-
+        
         prevState = state;
         state = GamePad.GetState(playerIndex);
 
         GamePad.SetVibration(playerIndex, 0, x);
         if(timer>maxTime){
-        transform.localRotation *= Quaternion.Euler(0.0f, 100.0f, 0.0f);
-        x = 0.10f;
-        timer = -5;
-    } 
-    if(timer<maxTime && timer>0){
-        x = 0.0f;
-        
-
-    }
+            Debug.Log(maxTime+" "+BPM);
+            transform.localRotation *= Quaternion.Euler(0.0f, 100.0f, 0.0f);
+            x = 0.10f;
+            timer = maxTime*-1;
+            Debug.Log("SHAKE!");
+         } 
+        if(timer<maxTime && timer>0){
+            x = 0.0f;
+        }
     }
 }
