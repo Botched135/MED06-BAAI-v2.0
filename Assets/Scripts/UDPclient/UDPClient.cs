@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System;
+using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Net;
 using System.Threading;
@@ -13,12 +14,14 @@ public class UDPClient : MonoBehaviour{
     Thread receiveThread;
     UdpClient client;
     private Rumble rumble;
+    private GameAI AIController;
 
     Vector3 position;
 
 	// Use this for initialization
 	void Start () {
         rumble = GetComponent<Rumble>();
+        AIController = GetComponent<GameAI>();
         init();
 	}
 	
@@ -54,8 +57,9 @@ public class UDPClient : MonoBehaviour{
                 if (received_data != null)
                 {
 
-                     Debug.Log(received_data);
-                    float time = 0, GSR=0, BPM=0, BaseLine= 0, HRD=0;
+
+                    float time = 0, GSR = 0, BPM = 0, BaseLine = 0; 
+                    int HRD=0;
                  
                     int firstSpaceIndex = received_data.IndexOf(" ", 0);
                     int secondSpaceIndex = received_data.IndexOf(" ", firstSpaceIndex+1);
@@ -66,10 +70,11 @@ public class UDPClient : MonoBehaviour{
                     GSR = float.Parse(received_data.Substring(firstSpaceIndex + 1, secondSpaceIndex - firstSpaceIndex));
                     BaseLine = float.Parse(received_data.Substring(secondSpaceIndex + 1, thirdSpaceIndex - secondSpaceIndex));
                     BPM = float.Parse(received_data.Substring(thirdSpaceIndex + 1,fouthSpaceIndex-thirdSpaceIndex));
-                    HRD = float.Parse(received_data.Substring(fouthSpaceIndex + 1));
+                    HRD = int.Parse(received_data.Substring(fouthSpaceIndex + 1));
 
                     if (HRD > 0)
                     {
+                        AIController.HRV.Add(HRD);
                         rumble.Shake(Mathf.Abs(GSR-BaseLine));
                     }               
 
