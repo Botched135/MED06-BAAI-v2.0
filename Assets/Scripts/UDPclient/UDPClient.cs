@@ -54,7 +54,7 @@ public class UDPClient : MonoBehaviour{
                 if (received_data != null)
                 {
 
-                     
+                     Debug.Log(received_data);
                     float time = 0, GSR=0, BPM=0, BaseLine= 0, HRD=0;
                  
                     int firstSpaceIndex = received_data.IndexOf(" ", 0);
