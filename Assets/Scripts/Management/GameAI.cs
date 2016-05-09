@@ -13,23 +13,13 @@ public class GameAI : MonoBehaviour {
     private MySceneManager _sceneManager;
     private GameObject player;
     private BoxCollider _trigger;
-	// Use this for initialization
+	
+
 	void Start () {
         _sceneManager = GetComponent<MySceneManager>();
         player = GameObject.FindGameObjectWithTag("Player");
 	}
 	
-	// Update is called once per frame
-	void Update () {
-        
-	
-        if(numbersOfRoomsComplete == 3)
-        {
-            winner = Compare(UScore, MScore, FScore);
-            _sceneManager._LoadScene(winner, this);
-        }
-
-	}
     private int Compare(float score1, float score2, float score3)
     {
         int highestScore = 0; //should be 1, 2, or 3
@@ -89,17 +79,20 @@ public class GameAI : MonoBehaviour {
         gameObject.AddComponent<BoxCollider>();
         _trigger = GetComponent<BoxCollider>();
         _trigger.isTrigger = true;
+        _trigger.size = new Vector3(4, 2.5f, 4);
         switch (_sceneManager._currentState)
         {
             case MySceneManager.SceneState.Uncanny:
+                _trigger.center= new Vector3(-54.7f,1.42f,0);
                 break;
             case MySceneManager.SceneState.Marvelous:
+                _trigger.center = new Vector3(-9.12f, 1.54f, 13.8f);
                 break;
             case MySceneManager.SceneState.Fantastic:
-                break;
-            case MySceneManager.SceneState.FinalRoom:
+                _trigger.center = new Vector3(-8.4f, -1.35f, -12.59f);
                 break;
             default:
+                _trigger.center = new Vector3(-54.85f, 1.4f, -0.2f);
                 break;
         }
 
@@ -136,14 +129,44 @@ public class GameAI : MonoBehaviour {
     {
         if(other.gameObject == player)
         {
-            if(_sceneManager._currentState == MySceneManager.SceneState.FinalRoom)
+            switch (_sceneManager._currentState)
+            {
+                case MySceneManager.SceneState.Uncanny:
+                    URMSSD = RMSSD(HRV);
+                    USDNN = SDNN(HRV);
+                    TotalScore();
+                    break;
+                case MySceneManager.SceneState.Marvelous:
+                    MRMSSD = RMSSD(HRV);
+                    MSDNN = SDNN(HRV);
+                    TotalScore();
+                    break;
+                case MySceneManager.SceneState.Fantastic:
+                    FRMSSD = RMSSD(HRV);
+                    FSDNN = SDNN(HRV);
+                    TotalScore();
+                    break;
+                case MySceneManager.SceneState.FinalRoom:
+                    break;
+                default:
+                    break;
+            }
+            if (_sceneManager._currentState == MySceneManager.SceneState.FinalRoom)
             {
                 _sceneManager.fadeScript.BeginFade(1);
                 Application.Quit();
             }
-            numbersOfRoomsComplete++;
-            Destroy(GetComponent<BoxCollider>());
-            _sceneManager._LoadScene(numbersOfRoomsComplete, this);
+            else if (numbersOfRoomsComplete == 3)
+            {
+                Destroy(GetComponent<BoxCollider>());
+                winner = Compare(UScore, MScore, FScore);
+                _sceneManager._LoadScene(winner, this);
+            }
+            else {
+                numbersOfRoomsComplete++;
+                Destroy(GetComponent<BoxCollider>());
+                _sceneManager._LoadScene(numbersOfRoomsComplete, this);
+            }
             
         }
 

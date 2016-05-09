@@ -47,7 +47,6 @@ public class Rumble : MonoBehaviour {
         state = GamePad.GetState(playerIndex);
 
         GamePad.SetVibration(playerIndex, 0, x);
-        Debug.Log(x);
         if (timer<maxTime && timer>0 && startTimer){
         x = 0.0f;
             
