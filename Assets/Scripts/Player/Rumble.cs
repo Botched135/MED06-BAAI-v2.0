@@ -58,8 +58,7 @@ public class Rumble : MonoBehaviour {
     }
     public void Shake(float y)
     {
-        Debug.Log("SHAKE");
-        this.x = 0.05f + (0.005f * y); //0.10f
+        this.x = 0.4f + (0.005f * y); //0.10f
         timer = -5;
         startTimer = true;
     }
