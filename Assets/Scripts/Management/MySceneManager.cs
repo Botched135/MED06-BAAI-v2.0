@@ -14,19 +14,17 @@ public class MySceneManager : MonoBehaviour
         FinalRoom
     }
     public SceneState _currentState = SceneState.Elevator;
-    // Use this for initialization
     void Start()
     {
         fadeScript = GetComponent<Fading>();
         DontDestroyOnLoad(gameObject);
-    }
+        _currentState = CheckState();
 
-    // Update is called once per frame
+    }
     void Update()
     {
-
+        Debug.Log(_currentState);
     }
-
 
     public void _LoadScene(int index, GameAI _controller)
     {
@@ -34,6 +32,27 @@ public class MySceneManager : MonoBehaviour
         SceneManager.LoadScene(index);
         _controller.AddTrigger();
         fadeScript.OnLevelWasLoaded();
+        _currentState = CheckState();
 
+    }
+    public SceneState CheckState()
+    {
+        SceneState value;
+        switch (SceneManager.GetActiveScene().name)
+        {
+            case "Horror#1":
+                value = SceneState.Uncanny;
+                break;
+            case "Horror#2_2":
+                value = SceneState.Marvelous;
+                break;
+            case "Horror#3":
+                value = SceneState.Fantastic;
+                break;
+           default:
+                value = SceneState.FinalRoom;
+                break;
+        }
+        return value;
     }
 }

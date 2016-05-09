@@ -15,6 +15,9 @@ public class UDPClient : MonoBehaviour{
     UdpClient client;
     private Rumble rumble;
     private GameAI AIController;
+    [SerializeField]
+    [Range(40,100)]
+    private int GSRDifference; 
 
     Vector3 position;
 
@@ -76,6 +79,14 @@ public class UDPClient : MonoBehaviour{
                     {
                         AIController.HRV.Add(HRD);
                         rumble.Shake(Mathf.Abs(GSR-BaseLine));
+                    }
+                    if (BPM != 0)
+                    {
+                        //send shit
+                    }
+                    if (Mathf.Abs(GSR - BaseLine) >= 50)
+                    {
+                        //Send time everytime hehe
                     }               
 
                 }
