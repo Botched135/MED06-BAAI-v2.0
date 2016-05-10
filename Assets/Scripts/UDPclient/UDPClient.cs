@@ -78,13 +78,14 @@ public class UDPClient : MonoBehaviour{
                     if (HRD > 0)
                     {
                         AIController.HRV.Add(HRD);
+                        AIController.heartRate.Add(BPM);
                         rumble.Shake(Mathf.Abs(GSR-BaseLine));
                     }
                     if (BPM != 0)
                     {
                         //send shit
                     }
-                    if (Mathf.Abs(GSR - BaseLine) >= 50)
+                    if (Mathf.Abs(GSR - BaseLine) >= GSRDifference)
                     {
                         //Send time everytime hehe
                     }               

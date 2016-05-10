@@ -1,14 +1,18 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
 
 public class GameAI : MonoBehaviour {
     public float UHeartRate, MHeartRate, FHeartRate;
     public float URMSSD, USDNN, MRMSSD, MSDNN, FRMSSD, FSDNN;
     public int UGSRlow, MGSRlow, FGSRlow;
     public int numbersOfRoomsComplete;
-    public float UScore, MScore, FScore;
+    public float UScore, MScore, FScore, FinalScore;
     public List<int> HRV;
+    public List<float> heartRate;
     private int winner;
     private MySceneManager _sceneManager;
     private GameObject player;
@@ -18,8 +22,17 @@ public class GameAI : MonoBehaviour {
 	void Start () {
         _sceneManager = GetComponent<MySceneManager>();
         player = GameObject.FindGameObjectWithTag("Player");
+        AddTrigger();
 	}
-	
+	void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            SaveToFile(1, 1, 1, 1, 1, 1);
+            
+        }
+
+    }
     private int Compare(float score1, float score2, float score3)
     {
         int highestScore = 0; //should be 1, 2, or 3
@@ -76,50 +89,66 @@ public class GameAI : MonoBehaviour {
 
     public void AddTrigger()
     {
-        gameObject.AddComponent<BoxCollider>();
-        _trigger = GetComponent<BoxCollider>();
-        _trigger.isTrigger = true;
-        _trigger.size = new Vector3(4, 2.5f, 4);
-        switch (_sceneManager._currentState)
+       
+        if (GetComponent<BoxCollider>() == null)
         {
-            case MySceneManager.SceneState.Uncanny:
-                _trigger.center= new Vector3(-54.7f,1.42f,0);
-                break;
-            case MySceneManager.SceneState.Marvelous:
-                _trigger.center = new Vector3(-9.12f, 1.54f, 13.8f);
-                break;
-            case MySceneManager.SceneState.Fantastic:
-                _trigger.center = new Vector3(-8.4f, -1.35f, -12.59f);
-                break;
-            default:
-                _trigger.center = new Vector3(-54.85f, 1.4f, -0.2f);
-                break;
+            gameObject.AddComponent<BoxCollider>();
+            _trigger = GetComponent<BoxCollider>();
+            _trigger.isTrigger = true;
+            _trigger.size = new Vector3(4, 2.5f, 4);
+        }
+       
+        switch (_sceneManager._currentState)
+            {
+                case MySceneManager.SceneState.Uncanny:
+                    _trigger.center = new Vector3(-54.7f, 1.42f, 0);
+                    break;
+                case MySceneManager.SceneState.Marvelous:
+                    _trigger.center = new Vector3(-9.12f, 1.54f, 13.8f);
+                    break;
+                case MySceneManager.SceneState.Fantastic:
+                    _trigger.center = new Vector3(-8.4f, -1.35f, -12.59f);
+                    break;
+                default:
+                    _trigger.center = new Vector3(-54.85f, 1.4f, -0.2f);
+                    break;
+        }
+        if (!_trigger.enabled)
+        {
+            _trigger.enabled = true;
         }
 
     }
     //make something clever to actually give the scores.
 
-    public void TotalScore()
+    public void TotalScore(float heartRate, int GSRSpikes, float HRV1, float HRV2, float GSRAverage)
     {
         switch (_sceneManager._currentState)
         {
             case MySceneManager.SceneState.Uncanny:
-                UScore = ScoreCalc(UHeartRate, 2, URMSSD, USDNN, UGSRlow);
+                UScore = ScoreCalc(heartRate, GSRSpikes, HRV1, HRV2, GSRAverage);
+                SaveToFile(HRV1, HRV2, heartRate, GSRSpikes, GSRAverage, UScore);
+                HRV.Clear();
                 break;
             case MySceneManager.SceneState.Marvelous:
-                MScore = ScoreCalc(MHeartRate, 2, MRMSSD, MSDNN, MGSRlow);
+                MScore = ScoreCalc(heartRate, GSRSpikes, HRV1, HRV2, GSRAverage);
+                SaveToFile(HRV1, HRV2, heartRate, GSRSpikes, GSRAverage, MScore);
+                HRV.Clear();
                 break;
             case MySceneManager.SceneState.Fantastic:
-                FScore = ScoreCalc(FHeartRate, 2, FRMSSD, FSDNN, FGSRlow);
+                FScore = ScoreCalc(heartRate, GSRSpikes, HRV1, HRV2, GSRAverage);
+                SaveToFile(HRV1, HRV2, heartRate, GSRSpikes, GSRAverage, FScore);
+                HRV.Clear();
                 break;
             case MySceneManager.SceneState.FinalRoom:
-                //something to write to a document
+                FinalScore = ScoreCalc(heartRate, GSRSpikes, HRV1, HRV2, GSRAverage);
+                SaveToFile(HRV1, HRV2, heartRate, GSRSpikes, GSRAverage, FinalScore);
                 break;
             default:
                 break;
         }
     }
-    private float ScoreCalc(float heartRate, int GSRSpikes, float HRV1, float HRV2, int GSRLow)
+    private float ScoreCalc(float heartRate, int GSRSpikes, float HRV1, float HRV2, float GSRAverage)
     {
         float results = 0;
         // do the actual score calculation
@@ -132,21 +161,16 @@ public class GameAI : MonoBehaviour {
             switch (_sceneManager._currentState)
             {
                 case MySceneManager.SceneState.Uncanny:
-                    URMSSD = RMSSD(HRV);
-                    USDNN = SDNN(HRV);
-                    TotalScore();
+                    TotalScore(UHeartRate, UGSRlow, RMSSD(HRV), SDNN(HRV), 2);
                     break;
                 case MySceneManager.SceneState.Marvelous:
-                    MRMSSD = RMSSD(HRV);
-                    MSDNN = SDNN(HRV);
-                    TotalScore();
+                    TotalScore(MHeartRate, MGSRlow, RMSSD(HRV), SDNN(HRV), 2);
                     break;
                 case MySceneManager.SceneState.Fantastic:
-                    FRMSSD = RMSSD(HRV);
-                    FSDNN = SDNN(HRV);
-                    TotalScore();
+                    TotalScore(FHeartRate, FGSRlow, RMSSD(HRV), SDNN(HRV), 2);
                     break;
                 case MySceneManager.SceneState.FinalRoom:
+                    TotalScore(UHeartRate, UGSRlow, RMSSD(HRV), SDNN(HRV), 2);
                     break;
                 default:
                     break;
@@ -156,20 +180,106 @@ public class GameAI : MonoBehaviour {
                 _sceneManager.fadeScript.BeginFade(1);
                 Application.Quit();
             }
-            else if (numbersOfRoomsComplete == 3)
+            else if (numbersOfRoomsComplete == 2)
             {
-                Destroy(GetComponent<BoxCollider>());
+                _trigger.enabled = false;
                 winner = Compare(UScore, MScore, FScore);
-                _sceneManager._LoadScene(winner, this);
+                StartCoroutine(_sceneManager._LoadScene(winner, this));
             }
             else {
+                _trigger.enabled = false;
                 numbersOfRoomsComplete++;
-                Destroy(GetComponent<BoxCollider>());
-                _sceneManager._LoadScene(numbersOfRoomsComplete, this);
+                StartCoroutine(_sceneManager._LoadScene(numbersOfRoomsComplete, this));
+
             }
-            
+
         }
 
     }
+    public void SaveToFile(float RMSSD, float SDNN, float BPM, int GSRspikes, float GSRAverage, float Score)
+    {
+        string path = string.Format(@"c:\Data\Test{0}.txt", _sceneManager._currentState);
+        Debug.Log("Stuff");
+        
+        if (!File.Exists(path))
+        {
+            
+            using (StreamWriter writer = File.CreateText(path))
+            {
+                switch (_sceneManager._currentState)
+                {
+                    case MySceneManager.SceneState.Uncanny:
+                        writer.WriteLine("Uncanny");
+                        writer.WriteLine("Total Score: " + Score);
+                        writer.WriteLine("BPM: " + BPM);
+                        writer.WriteLine("GSR-spikes: " + GSRspikes);
+                        writer.WriteLine("GSR-Average: " + GSRAverage);
+                        writer.WriteLine("RMSSD: " + RMSSD);
+                        writer.WriteLine("SDNN:" + SDNN);
+                        break;
+                    case MySceneManager.SceneState.Marvelous:
+                        writer.WriteLine("Marvelous");
+                        writer.WriteLine("Total Score: " + Score);
+                        writer.WriteLine("BPM: " + BPM);
+                        writer.WriteLine("GSR-spikes: " + GSRspikes);
+                        writer.WriteLine("GSR-Average: " + GSRAverage);
+                        writer.WriteLine("RMSSD: " + RMSSD);
+                        writer.WriteLine("SDNN:" + SDNN);
+                        break;
+                    case MySceneManager.SceneState.Fantastic:
+                        writer.WriteLine("Fantastic");
+                        writer.WriteLine("Total Score: " + Score);
+                        writer.WriteLine("BPM: " + BPM);
+                        writer.WriteLine("GSR-spikes: " + GSRspikes);
+                        writer.WriteLine("GSR-Average: " + GSRAverage);
+                        writer.WriteLine("RMSSD: " + RMSSD);
+                        writer.WriteLine("SDNN:" + SDNN);
+                        break;
+                    case MySceneManager.SceneState.FinalRoom:
+                        writer.WriteLine("FinalRoom");
+                        writer.WriteLine("Total Score: " + Score);
+                        writer.WriteLine("BPM: " + BPM);
+                        writer.WriteLine("GSR-spikes: " + GSRspikes);
+                        writer.WriteLine("GSR-Average: " + GSRAverage);
+                        writer.WriteLine("RMSSD: " + RMSSD);
+                        writer.WriteLine("SDNN:" + SDNN);
+                        break;
+                    default:
+                        break;
+                }
+            }     
+        }
+
+
+    }
+    public void SaveToFile()
+    {
+        string path = string.Format(@"c:\Data\Test{0}.txt", _sceneManager._currentState);
+
+        if (!File.Exists(path))
+        {
+            using (StreamWriter writer = File.CreateText(path))
+            {
+                switch (_sceneManager._currentState)
+                {
+                    case MySceneManager.SceneState.Uncanny:
+                        writer.WriteLine("Uncanny");
+                        break;
+                    case MySceneManager.SceneState.Marvelous:
+                        writer.WriteLine("Marvelous");
+                        break;
+                    case MySceneManager.SceneState.Fantastic:
+                        writer.WriteLine("Fantastic");
+                        break;
+                    case MySceneManager.SceneState.FinalRoom:
+                        writer.WriteLine("FinalRoom");
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+    }
+
 
 }

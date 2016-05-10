@@ -5,12 +5,14 @@ public class MarvelousTrigger : MonoBehaviour {
     private GameObject Player;
     public GameObject otherTrigger;
     public GameObject _object;
-    private NavMeshAgent nav;
+    [Range(0, 1000)]
+    public float _force;
+    private Rigidbody _body;
 	// Use this for initialization
 	void Start () {
         Player = GameObject.FindGameObjectWithTag("Player");
-        nav = _object.GetComponent<NavMeshAgent>();
         _object.SetActive(false);
+        _body = _object.GetComponent<Rigidbody>();
         
 	}
 	
@@ -20,8 +22,7 @@ public class MarvelousTrigger : MonoBehaviour {
         if(other.gameObject == Player)
         {
             _object.SetActive(true);
-            nav.SetDestination(Player.transform.position);
-            nav.speed = 5f;
+            _body.AddForce((Player.transform.position-_object.transform.position) * _force);
             Destroy(otherTrigger);
             Destroy(gameObject);
         }
