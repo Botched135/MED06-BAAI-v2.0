@@ -65,7 +65,9 @@
      <Compile Include="Assets\Scripts\Lights\LightFlicker.cs" />
      <Compile Include="Assets\Scripts\Lights\RedLight.cs" />
      <Compile Include="Assets\Scripts\Management\Fading.cs" />
+     <Compile Include="Assets\Scripts\Management\GameAI.cs" />
      <Compile Include="Assets\Scripts\Management\GameManager.cs" />
+     <Compile Include="Assets\Scripts\Management\MySceneManager.cs" />
      <Compile Include="Assets\Scripts\Monster\Monster.cs" />
      <Compile Include="Assets\Scripts\Monster\MonsterF.cs" />
      <Compile Include="Assets\Scripts\Monster\MonsterM.cs" />
@@ -80,6 +82,7 @@
      <Compile Include="Assets\XInputDotNetPure\Properties\AssemblyInfo.cs" />
      <Compile Include="Assets\XInputDotNetPure\Utils.cs" />
      <Compile Include="Assets\XInputUnity\Assets\XInputDotNet\Examples\XInputTestCS.cs" />
+     <Compile Include="Assets\chains.cs" />
      <Compile Include="Assets\uSoundRip.cs" />
      <None Include="Assets\Model\ghoul\shader\ghoulshader.shader" />
      <None Include="Assets\Model\FliesSystem\Example\Standard Assets\Projectors\Sources\Shaders\Projector Multiply.shader" />
