@@ -21,19 +21,36 @@ public class MySceneManager : MonoBehaviour
         _currentState = CheckState();
 
     }
+    public IEnumerator _LoadScene(int index, GameAI _controller)
+    {
+        //TO-DO Write down start timer
+        fadeScript.BeginFade(1);
+        yield return new WaitForSeconds(1f);
+        SceneManager.LoadScene(index);
+        OnLevelWasLoaded(index);
+        yield return null;
+        _controller.AddTrigger();
+    }
     void Update()
     {
-        Debug.Log(_currentState);
+        _currentState = CheckState();
+    }
+    void OnGUI()
+    {
+        // fade out/in the alpha value using a direction, a speed and Time.deltaTime to convert the operation to seconds
+        fadeScript.alpha += fadeScript.fadeDir * fadeScript.fadeSpeed * Time.deltaTime;
+        // force (clamp) the number to be between 0 and 1 because GUI.color uses Alpha values between 0 and 1
+        fadeScript.alpha = Mathf.Clamp01(fadeScript.alpha);
+
+        // set color of our GUI (in this case our texture). All color values remain the same & the Alpha is set to the alpha variable
+        GUI.color = new Color(GUI.color.r, GUI.color.g, GUI.color.b, fadeScript.alpha);
+        GUI.depth = fadeScript.drawDepth;                                                              // make the black texture render on top (drawn last)
+        GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), fadeScript.fadeOutTexture);       // draw the texture to fit the entire screen area
     }
 
-    public void _LoadScene(int index, GameAI _controller)
+    public void _EventTime()
     {
-        fadeScript.BeginFade(1);
-        SceneManager.LoadScene(index);
-        _controller.AddTrigger();
-        fadeScript.OnLevelWasLoaded();
-        _currentState = CheckState();
-
+        //TO-DO: Give time for when each 
     }
     public SceneState CheckState()
     {
@@ -54,5 +71,9 @@ public class MySceneManager : MonoBehaviour
                 break;
         }
         return value;
+    }
+    public void OnLevelWasLoaded(int index) {
+        CheckState();
+        fadeScript.BeginFade(-1);
     }
 }
