@@ -33,8 +33,6 @@ public class SpiderMovementLeft : MonoBehaviour {
 				y += 0.008f;
 				transform.eulerAngles = new Vector3(xRot, yRot+100, zRot+450);
 				xRot = 270f;
-				//transform.rotation = new Vector3 (xRot,yRot,zRot);
-			//xRot	 += 160f;
 
 		} else if (transform.position.y>=4f)
 		MovingUp = true;
@@ -46,8 +44,6 @@ public class SpiderMovementLeft : MonoBehaviour {
 
 				transform.eulerAngles = new Vector3(xRot, yRot+100, zRot+450);
 				xRot = 450f;
-				//transform.rotation = new Vector3 (xRot,yRot, zRot);
-				//xRot += 360f;
 
 		}if (transform.position.y<=0f)
 		MovingUp = false;
