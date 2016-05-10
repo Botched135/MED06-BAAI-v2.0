@@ -19,9 +19,7 @@ public class Elevator : MonoBehaviour {
 		}
 	}
 	void OnTriggerEnter(Collider other){
-		Debug.Log("col1");
 		if (other.gameObject.tag == "Player"){
-			Debug.Log("col2");
 			open = true;
 		}
 	}	
