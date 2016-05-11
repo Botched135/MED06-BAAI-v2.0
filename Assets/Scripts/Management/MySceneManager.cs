@@ -27,9 +27,11 @@ public class MySceneManager : MonoBehaviour
         fadeScript.BeginFade(1);
         yield return new WaitForSeconds(1f);
         SceneManager.LoadScene(index);
-        _controller.player = GameObject.FindGameObjectWithTag("Player");
+        
         OnLevelWasLoaded(index);
+        
         yield return null;
+        _controller.player = GameObject.FindGameObjectWithTag("Player");
         _controller.AddTrigger();
     }
     void Update()

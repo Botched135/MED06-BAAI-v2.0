@@ -11,7 +11,7 @@ public class GameAI : MonoBehaviour {
     public int GSRSpikes;
     public int numbersOfRoomsComplete;
     public float UScore, MScore, FScore, FinalScore;
-    public float UGSRA, MGSRA, FGSRA, FinalGSRA; //GSR averages
+    public float UGSRA =0, MGSRA=0, FGSRA=0, FinalGSRA=0; //GSR averages
 
     public List<int> HRV;
     public List<int> GSR;
@@ -66,7 +66,7 @@ public class GameAI : MonoBehaviour {
         }
         else
         {
-            Compare(UGSRA, MGSRA, FGSRA);   
+            return Compare(UGSRA, MGSRA, FGSRA);   
         }
         return highestScore + 2;
     }
@@ -222,7 +222,7 @@ public class GameAI : MonoBehaviour {
                     _trigger.center = new Vector3(-9.12f, 1.54f, 12.5f);
                     break;
                 case MySceneManager.SceneState.Fantastic:
-                    _trigger.center = new Vector3(-8.4f, -1.35f, -12.59f);
+                    _trigger.center = new Vector3(-8.4f, 1.37f, -12.59f);
                     break;
                 default:
                     _trigger.center = new Vector3(-54.85f, 1.4f, -0.2f);
@@ -238,24 +238,23 @@ public class GameAI : MonoBehaviour {
     public void OnTriggerEnter(Collider other)
     {
         if(other.gameObject == player)
-        { 
+        {
             switch (_sceneManager._currentState)
             {
                 
                 case MySceneManager.SceneState.Uncanny:
-                    Debug.Log("SHIT");
+                   
                     TotalScore(HeartRateAverage(BPM), GSRSpikes , RMSSD(HRV), SDNN(HRV), GSRAverage(GSR));
                     break;
                 case MySceneManager.SceneState.Marvelous:
-                    Debug.Log("TRIGGERED"); //never gets to this point... Feels badman
+                   
                     TotalScore(HeartRateAverage(BPM), GSRSpikes, RMSSD(HRV), SDNN(HRV), GSRAverage(GSR));
                     break;
                 case MySceneManager.SceneState.Fantastic:
-                    Debug.Log("FUCK");
+                   
                     TotalScore(HeartRateAverage(BPM), GSRSpikes, RMSSD(HRV), SDNN(HRV), GSRAverage(GSR));
                     break;
                 case MySceneManager.SceneState.FinalRoom:
-                    Debug.Log("ASS");
                     TotalScore(HeartRateAverage(BPM), GSRSpikes, RMSSD(HRV), SDNN(HRV), GSRAverage(GSR));
                     break;
                 default:
@@ -267,14 +266,14 @@ public class GameAI : MonoBehaviour {
                 _sceneManager.fadeScript.BeginFade(1);
                 Application.Quit();
             }
-            else if (numbersOfRoomsComplete == 2)
+            else if (numbersOfRoomsComplete >=   2)
             {
                 _trigger.enabled = false;
                 winner = Compare(UScore, MScore, FScore);
                 StartCoroutine(_sceneManager._LoadScene(winner, this));
             }
             else {
-                Debug.Log("STOP");
+                StopCoroutine(_sceneManager._LoadScene(numbersOfRoomsComplete, this));
                 _trigger.enabled = false;
                 numbersOfRoomsComplete++;
                 StartCoroutine(_sceneManager._LoadScene(numbersOfRoomsComplete, this));
