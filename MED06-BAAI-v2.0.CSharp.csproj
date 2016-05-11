@@ -88,6 +88,7 @@
     <Compile Include="Assets\Scripts\Environment\Elevator.cs" />
     <Compile Include="Assets\Scripts\Environment\MovingMeat.cs" />
     <Compile Include="Assets\Scripts\Environment\Sound\Ambient.cs" />
+    <Compile Include="Assets\Scripts\Environment\Sound\EventM_Sounds.cs" />
     <Compile Include="Assets\Scripts\Environment\Sound\Howl.cs" />
     <Compile Include="Assets\Scripts\Lights\LightFlicker.cs" />
     <Compile Include="Assets\Scripts\Lights\RedLight.cs" />
@@ -109,6 +110,7 @@
     <Compile Include="Assets\XInputDotNetPure\Properties\AssemblyInfo.cs" />
     <Compile Include="Assets\XInputDotNetPure\Utils.cs" />
     <Compile Include="Assets\XInputUnity\Assets\XInputDotNet\Examples\XInputTestCS.cs" />
+    <Compile Include="Assets\chains.cs" />
     <Compile Include="Assets\uSoundRip.cs" />
   </ItemGroup>
   <ItemGroup>
