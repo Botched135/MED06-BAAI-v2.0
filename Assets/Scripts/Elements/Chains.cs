@@ -16,6 +16,7 @@ public class Chains : MonoBehaviour {
 	}
 
 void OnTriggerEnter(Collider other){
+	AudioSource.PlayClipAtPoint(chainSound, transform.position);
 		if (other.gameObject.tag == "Player"){
 		anim.Play("Move", 0);
 	}
