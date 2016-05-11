@@ -85,7 +85,7 @@ ModelImporter:
     4300022: pCube14
     4300024: pCube15
     4300026: pCube16
-    7400000: Take 001
+    7400000: Move
     7400002: Take 0010
     9500000: //RootNode
     13700000: pCube10
@@ -124,7 +124,7 @@ ModelImporter:
     extraExposedTransformPaths: []
     clipAnimations:
     - serializedVersion: 16
-      name: Take 001
+      name: Move
       takeName: Take 001
       firstFrame: 10
       lastFrame: 100
@@ -134,7 +134,7 @@ ModelImporter:
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 1
+      loopTime: 0
       loopBlend: 1
       loopBlendOrientation: 0
       loopBlendPositionY: 0
