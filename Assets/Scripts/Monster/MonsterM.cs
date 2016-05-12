@@ -1,9 +1,9 @@
-﻿using UnityEngine;
+﻿ using UnityEngine;
 using System.Collections;
 
 public class MonsterM : Monster {
 
-    private bool trigger;
+    private bool trigger = false, trigger2 = false;
     //Soundclips etc
     public AudioClip laugh01;
     public AudioClip scream01;
@@ -26,6 +26,7 @@ public class MonsterM : Monster {
 
         wayPoints = GameObject.FindGameObjectsWithTag("Point1");
         player = GameObject.FindGameObjectWithTag("Player");
+        playerDeath = player.GetComponent<PlayerDeath>();
         time = 0;
         nav.destination = wayPoints[0].transform.position;
 
@@ -66,12 +67,16 @@ public class MonsterM : Monster {
         anim.SetFloat("Speed", moveSpeed * moveSpeed);
         if (seenPlayer)
         {
+            if (!trigger2)
+            {
+                nav.Resume();
+                trigger2 = true;
+            }
             playerPosition = player.transform.position;
             anim.SetBool("SeenPlayer", true);
             nav.speed = 2;
             NoticePlayer();
             nav.SetDestination(playerPosition);
-            nav.Resume();
             Attack();
 
             if (!trigger)
@@ -105,6 +110,33 @@ public class MonsterM : Monster {
             if (select == 3) { select = 1; }
             
         
+    }
+    public override IEnumerator KnockBack()
+    {
+        nav.Stop();
+        anim.SetBool("Attack", true);
+        yield return null;
+        anim.SetBool("Attack", false);
+        yield return new WaitForSeconds(3);
+        nav.Resume();
+        PlayerKnockedDown = true;
+    }
+    public override IEnumerator KnockBack(bool killer)
+    {
+        if (!killer)
+        {
+            StartCoroutine(KnockBack());
+            yield return null;
+        }
+        else
+        {
+            nav.Stop();
+            anim.SetBool("Attack", true);
+            yield return null;
+            anim.SetBool("Attack", false);
+            yield return new WaitForSeconds(0.5f);
+            playerDeath.playerDie = true;
+        }
     }
 
     public override void NoticePlayer()

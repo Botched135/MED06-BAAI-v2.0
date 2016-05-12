@@ -21,17 +21,15 @@ public class MonsterU : Monster {
         Directions = GameObject.FindGameObjectsWithTag("Front");
         wayPointIndex = 0;
         wayPoints = new GameObject[2];
-        nav = GetComponent<NavMeshAgent>();
-        nav.speed = 0.75f;
-
        
 
         rotationTime = 3f;
 
         wayPoints = GameObject.FindGameObjectsWithTag("Point1");
         player = GameObject.FindGameObjectWithTag("Player");
+        playerDeath = player.GetComponent<PlayerDeath>();
         time = 0;
-        nav.destination = wayPoints[0].transform.position;
+        //nav.destination = wayPoints[0].transform.position;
 
         pivotPoint = GameObject.FindGameObjectWithTag("TransformPos");
 
@@ -44,12 +42,13 @@ public class MonsterU : Monster {
 	// Update is called once per frame
 	void Update () {
 
-        moveSpeed = nav.velocity.sqrMagnitude;
-        anim.SetFloat("Speed", moveSpeed * moveSpeed);
+
         if (seenPlayer)
         {
+            
             playerPosition = player.transform.position;
             TeleportVector = playerPosition - transform.position;
+            transform.rotation = Quaternion.LookRotation(new Vector3(playerPosition.x - transform.position.x, transform.position.y, playerPosition.z - transform.position.z));
             if (!trigger)
             {
                 StartCoroutine(Teleport());
@@ -57,18 +56,15 @@ public class MonsterU : Monster {
                 trigger = true;
                 
             }
-            anim.SetBool("SeenPlayer", true);
-            nav.speed = 1.25f;
             NoticePlayer();
             
             
-            nav.SetDestination(playerPosition);
-            nav.Resume();
+            
             Attack();
         
         }
-        else if (!seenPlayer)
-            Move();
+        //else if (!seenPlayer)
+            //Move();
 
     
     }
@@ -142,9 +138,43 @@ public class MonsterU : Monster {
 
         //soundfile play for teleport
         AudioSource.PlayClipAtPoint(teleportSound, transform.position);
-
-        transform.position = new Vector3(playerPosition.x-(TeleportVector.x/2), transform.position.y, playerPosition.z-(TeleportVector.z / 2));
+        Debug.Log(Mathf.Abs(playerPosition.x - TeleportVector.x));
+        if (Mathf.Abs(playerPosition.x - TeleportVector.x) < 27)
+        {
+            Debug.Log("TOO CLOSE");
+            transform.position = new Vector3(playerPosition.x - 1, transform.position.y, playerPosition.z - 1);
+        }
+        else
+            transform.position = new Vector3(playerPosition.x - (TeleportVector.x / 2.5f), transform.position.y, playerPosition.z - (TeleportVector.z / 2.5f));
+        transform.rotation = Quaternion.LookRotation(new Vector3(playerPosition.x-transform.position.x, transform.position.y, playerPosition.z-transform.position.z));
 
         StartCoroutine(Teleport());
+    }
+    public override IEnumerator KnockBack() // do some sound of attack
+    {
+        StopCoroutine(Teleport());
+        anim.SetBool("Attack", true);
+        yield return null;
+        anim.SetBool("Attack", false);
+        yield return new WaitForSeconds(3);
+        PlayerKnockedDown = true;
+        StartCoroutine(Teleport());
+    }
+    public override IEnumerator KnockBack(bool killer)
+    {
+        if (!killer)
+        {
+            StartCoroutine(KnockBack());
+            yield return null;
+        }
+        else
+        {
+            anim.SetBool("Attack", true);
+            yield return null;
+            anim.SetBool("Attack", false);
+            yield return new WaitForSeconds(0.5f);
+            playerDeath.playerDie = true;
+            StopCoroutine(Teleport());
+        }
     }
 }
