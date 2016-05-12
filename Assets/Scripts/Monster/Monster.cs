@@ -28,8 +28,9 @@ public class Monster : MonoBehaviour {
     public float AttackRange;
     public bool PlayerKnockedDown;
     public Vector3 distanceToPlayer;
+    public PlayerDeath playerDeath;
 
-    void Awake () {
+    void Start () {
         anim = GetComponent<Animator>();
         Directions = GameObject.FindGameObjectsWithTag("Front");
         wayPointIndex = 0;
@@ -41,6 +42,7 @@ public class Monster : MonoBehaviour {
 
         wayPoints = GameObject.FindGameObjectsWithTag("Point1");
         player = GameObject.FindGameObjectWithTag("Player");
+        playerDeath = player.GetComponent<PlayerDeath>();
         time = 0;
         nav.destination = wayPoints[0].transform.position;
 
@@ -212,19 +214,43 @@ public class Monster : MonoBehaviour {
         {
             if (PlayerKnockedDown)
             {
-                //kill
+                StartCoroutine(KnockBack(PlayerKnockedDown));
             }
             else {
-                PlayerKnockedDown = true;
+                
                 StartCoroutine(KnockBack());
             }
         }
-        else
-            StopCoroutine(KnockBack());
+        else {
+            //StopCoroutine(KnockBack());
+        }
     }
-    public IEnumerator KnockBack()
+    public virtual IEnumerator KnockBack()
     {
+        nav.Stop();
+        anim.SetBool("Attack", true);
+        yield return null;
+        anim.SetBool("Attack", false);
         yield return new WaitForSeconds(3);
+        nav.Resume();
+        PlayerKnockedDown = true;
+    }
+    public virtual IEnumerator KnockBack(bool killer)
+    {
+        if (!killer)
+        {
+            StartCoroutine(KnockBack());
+            yield return null;
+        }
+        else
+        {
+            nav.Stop();
+            anim.SetBool("Attack", true);
+            yield return null;
+            anim.SetBool("Attack", false);
+            yield return new WaitForSeconds(0.5f);
+            playerDeath.playerDie = true; 
+        }
     }
 
     public virtual void NoticePlayer()

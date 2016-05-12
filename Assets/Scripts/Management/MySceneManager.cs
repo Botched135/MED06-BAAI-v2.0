@@ -4,18 +4,20 @@ using UnityEngine.SceneManagement;
 
 public class MySceneManager : MonoBehaviour
 {
+    public PlayerDeath player;
     public Fading fadeScript;
+    private bool trigger = true;
     public enum SceneState
     {
-        Elevator,
         Uncanny,
         Marvelous,
         Fantastic,
         FinalRoom
     }
-    public SceneState _currentState = SceneState.Elevator;
+    public SceneState _currentState;
     void Start()
     {
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerDeath>() ;
         fadeScript = GetComponent<Fading>();
         DontDestroyOnLoad(gameObject);
         _currentState = CheckState();
@@ -24,12 +26,10 @@ public class MySceneManager : MonoBehaviour
     public IEnumerator _LoadScene(int index, GameAI _controller)
     {
         //TO-DO Write down start timer
-        fadeScript.BeginFade(1);
-        yield return new WaitForSeconds(1f);
+        fadeScript.BeginFade(2);
+        yield return new WaitForSeconds(3f);
         SceneManager.LoadScene(index);
-        
         OnLevelWasLoaded(index);
-        
         yield return null;
         _controller.player = GameObject.FindGameObjectWithTag("Player");
         _controller.AddTrigger();
@@ -37,6 +37,12 @@ public class MySceneManager : MonoBehaviour
     void Update()
     {
         _currentState = CheckState();
+        if (player.playerDie && trigger)
+        {
+            fadeScript.BeginFade(2);
+            player.PlayDied();
+            trigger = false;
+        }
     }
     void OnGUI()
     {
