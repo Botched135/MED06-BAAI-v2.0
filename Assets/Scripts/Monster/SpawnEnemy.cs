@@ -8,6 +8,7 @@ public class SpawnEnemy : MonoBehaviour {
     [SerializeField]
     private GameObject SpawnPoint;
     private bool Activated;
+    public GameObject lightTrigger;
     public GameObject partnerTriggerZone;
 
     void Awake()
@@ -22,8 +23,9 @@ public class SpawnEnemy : MonoBehaviour {
     {
         if(other.gameObject == Player && !Activated)
         {
+            lightTrigger.SetActive(true);
             Destroy(GameObject.FindGameObjectWithTag("Enemy"));
-            Instantiate(Enemy, SpawnPoint.transform.position, Quaternion.Euler(new Vector3(0,90,0)));
+            Instantiate(Enemy, SpawnPoint.transform.position, Quaternion.Euler(new Vector3(0,-90,0)));
             Destroy(partnerTriggerZone);
             Destroy(gameObject);
             
