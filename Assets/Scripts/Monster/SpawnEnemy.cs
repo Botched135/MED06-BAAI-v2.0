@@ -22,8 +22,8 @@ public class SpawnEnemy : MonoBehaviour {
     {
         if(other.gameObject == Player && !Activated)
         {
-            //Destroy(GameObject.FindGameObjectWithTag("Enemy"));
-            Instantiate(Enemy, SpawnPoint.transform.position, Quaternion.identity);
+            Destroy(GameObject.FindGameObjectWithTag("Enemy"));
+            Instantiate(Enemy, SpawnPoint.transform.position, Quaternion.Euler(new Vector3(0,90,0)));
             Destroy(partnerTriggerZone);
             Destroy(gameObject);
             

@@ -3,7 +3,7 @@ using System.Collections;
 
 public class MonsterF : Monster {
     private bool Roar;
-    private bool trigger = false;
+    private bool trigger = false, trigger2 =false;
 
     //Soundclips etc
     public AudioClip attack01;
@@ -16,7 +16,6 @@ public class MonsterF : Monster {
 
     // Use this for initialization
     void Awake () {
-        trigger = false;
         anim = GetComponent<Animator>();
         Directions = GameObject.FindGameObjectsWithTag("Front");
         wayPointIndex = 0;
@@ -28,6 +27,7 @@ public class MonsterF : Monster {
 
         wayPoints = GameObject.FindGameObjectsWithTag("Point1");
         player = GameObject.FindGameObjectWithTag("Player");
+        playerDeath = player.GetComponent<PlayerDeath>();
         time = 0;
         nav.destination = wayPoints[0].transform.position;
 
@@ -49,12 +49,16 @@ public class MonsterF : Monster {
             NoticePlayer();
         }
         if (Roar) {
-
+            if (!trigger2)
+            {
+                nav.Resume();
+                trigger2 = true;
+            }
             anim.SetBool("SeenPlayer", true);
             nav.speed = 2f;
             playerPosition = player.transform.position;
             nav.SetDestination(playerPosition);
-            nav.Resume();
+            
             Attack();
         }
         else if(!seenPlayer || !Roar)
@@ -146,6 +150,33 @@ public class MonsterF : Monster {
             anim.SetBool("roar", false);
             anim.SetBool("RoarFromStance", false);
             
+        }
+    }
+    public override IEnumerator KnockBack()
+    {
+        nav.Stop();
+        anim.SetBool("Attack", true);
+        yield return null;
+        anim.SetBool("Attack", false);
+        yield return new WaitForSeconds(3);
+        nav.Resume();
+        PlayerKnockedDown = true;
+    }
+    public override IEnumerator KnockBack(bool killer)
+    {
+        if (!killer)
+        {
+            StartCoroutine(KnockBack());
+            yield return null;
+        }
+        else
+        {
+            nav.Stop();
+            anim.SetBool("Attack", true);
+            yield return null;
+            anim.SetBool("Attack", false);
+            yield return new WaitForSeconds(0.5f);
+            playerDeath.playerDie = true;
         }
     }
 }
