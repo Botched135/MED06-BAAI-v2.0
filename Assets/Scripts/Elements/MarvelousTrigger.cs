@@ -22,7 +22,7 @@ public class MarvelousTrigger : MonoBehaviour {
         if(other.gameObject == Player)
         {
             _object.SetActive(true);
-            _body.AddForce((Player.transform.position-_object.transform.position) * _force);
+            _body.AddForce((transform.position-_object.transform.position) * _force);
             Destroy(otherTrigger);
             Destroy(gameObject);
         }
