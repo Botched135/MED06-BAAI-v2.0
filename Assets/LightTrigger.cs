@@ -9,11 +9,10 @@ public class LightTrigger : MonoBehaviour {
     public GameObject partnerTriggerZone;
     public GameObject[] Lamps = new GameObject[12];
 
-    // Use this for initialization
-    void OnEnabled () {
-       
+    public AudioClip jumpScare;
+    public AudioClip lightsOut;
 
-    }
+    // Use this for initialization
     IEnumerator OnTriggerEnter(Collider other)
     {
         Player = GameObject.FindGameObjectWithTag("Player");
@@ -27,7 +26,7 @@ public class LightTrigger : MonoBehaviour {
                 
             }
             RenderSettings.ambientIntensity = 0;
-            //Play light sound
+            AudioSource.PlayClipAtPoint(lightsOut, new Vector3(Player.transform.position.x, Player.transform.position.y + 2, Player.transform.position.z));
             
             yield return new WaitForSeconds(3f);
             Enemy.transform.position = new Vector3(Player.transform.position.x-4, 0, Player.transform.position.z);
@@ -39,7 +38,7 @@ public class LightTrigger : MonoBehaviour {
 
             }
             RenderSettings.ambientIntensity = 1;
-            //Click for light plus jump scare
+            AudioSource.PlayClipAtPoint(jumpScare, Enemy.transform.position, 1.0F);
 
             Destroy(partnerTriggerZone);
             Destroy(gameObject);
