@@ -66,13 +66,13 @@ public class MySceneManager : MonoBehaviour
         SceneState value;
         switch (SceneManager.GetActiveScene().name)
         {
-            case "Horror#1":
+            case "Horror#1MAJA":
                 value = SceneState.Uncanny;
                 break;
-            case "Horror#2_2":
+            case "Horror#2_2MAJA":
                 value = SceneState.Marvelous;
                 break;
-            case "Horror#3":
+            case "Horror#3MAJA":
                 value = SceneState.Fantastic;
                 break;
            default:
