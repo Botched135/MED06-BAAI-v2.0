@@ -75,6 +75,7 @@
     <Compile Include="Assets\FliesSystem.cs" />
     <Compile Include="Assets\FliesSystemEditor.cs" />
     <Compile Include="Assets\FliesSystemMenu.cs" />
+    <Compile Include="Assets\LightTrigger.cs" />
     <Compile Include="Assets\MinMaxSliderAttribute.cs" />
     <Compile Include="Assets\MinMaxSliderDrawer.cs" />
     <Compile Include="Assets\Model\FliesSystem\Example\Standard Assets\Character Controllers\Sources\Scripts\MouseLook.cs" />
