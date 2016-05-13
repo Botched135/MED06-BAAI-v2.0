@@ -73,25 +73,25 @@ public class MonsterF : Monster {
                 AudioSource.PlayClipAtPoint(attack01, transform.position, 1.0f);
                 break;
             case 2:
-                AudioSource.PlayClipAtPoint(neutral01, transform.position);
+                AudioSource.PlayClipAtPoint(neutral01, transform.position, 1.0f);
                 
                 break;
             case 3:
-                AudioSource.PlayClipAtPoint(attack02, transform.position);
+                AudioSource.PlayClipAtPoint(attack02, transform.position, 1.0f);
                 break;
             case 4:
-                AudioSource.PlayClipAtPoint(neutral02, transform.position);
+                AudioSource.PlayClipAtPoint(neutral02, transform.position, 1.0f);
                 
                 break;
             case 5:
-                AudioSource.PlayClipAtPoint(attack03, transform.position);
+                AudioSource.PlayClipAtPoint(attack03, transform.position, 1.0f);
                 break;
             case 6:
-                AudioSource.PlayClipAtPoint(neutral03, transform.position);
+                AudioSource.PlayClipAtPoint(neutral03, transform.position, 1.0f);
                 
                 break;
         }
-        yield return new WaitForSeconds(8f);
+        yield return new WaitForSeconds(4f);
         select++;
         if (select == 7) { select = 1; }
         yield return null;
