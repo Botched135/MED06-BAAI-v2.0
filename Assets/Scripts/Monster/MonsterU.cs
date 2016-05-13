@@ -134,7 +134,7 @@ public class MonsterU : Monster {
     private IEnumerator Teleport()
     {
         
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(4f);
 
         //soundfile play for teleport
         AudioSource.PlayClipAtPoint(teleportSound, transform.position);
@@ -142,7 +142,7 @@ public class MonsterU : Monster {
         if (Mathf.Abs(playerPosition.x - TeleportVector.x) < 27)
         {
             Debug.Log("TOO CLOSE");
-            transform.position = new Vector3(playerPosition.x - 1, transform.position.y, playerPosition.z - 1);
+            transform.position = new Vector3(playerPosition.x - AttackRange/2, transform.position.y, playerPosition.z - AttackRange/2);
         }
         else
             transform.position = new Vector3(playerPosition.x - (TeleportVector.x / 2.5f), transform.position.y, playerPosition.z - (TeleportVector.z / 2.5f));
