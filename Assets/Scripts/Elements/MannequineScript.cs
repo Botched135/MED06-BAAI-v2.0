@@ -9,9 +9,9 @@ public class MannequineScript : MonoBehaviour {
     private Vector3 []direction = new Vector3[4];
     private Vector3 tempVec;
     public GameObject[] Mannequnies = new GameObject[4];
-    private Vector3[,] teleportPoints = new Vector3[4,6];
-    private GameObject[] TPGameObject = new GameObject[6];
-    public BoxCollider[] TPCoorsCollider = new BoxCollider[6];
+    private Vector3[,] teleportPoints = new Vector3[4,5];
+    private GameObject[] TPGameObject = new GameObject[5];
+    public BoxCollider[] TPCoorsCollider = new BoxCollider[5];
     private Vector3[] temp = new Vector3[4];
     public float maxDistance;
     private Vector3 TPDirections;
@@ -111,7 +111,7 @@ public class MannequineScript : MonoBehaviour {
 
             }
             Mannequnies[i].transform.position = new Vector3(temp[i].x, 1.5f, temp[i].z);
-            Mannequnies[i].transform.rotation = Quaternion.LookRotation(Player.gameObject.transform.position, Vector3.up);
+            Mannequnies[i].transform.LookAt(new Vector3(Player.gameObject.transform.position.x, Mannequnies[i].transform.position.y, Player.gameObject.transform.position.z));
             
 
         }
