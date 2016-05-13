@@ -80,6 +80,10 @@
     <Compile Include="Assets\MinMaxSliderDrawer.cs" />
     <Compile Include="Assets\Model\FliesSystem\Example\Standard Assets\Character Controllers\Sources\Scripts\MouseLook.cs" />
     <Compile Include="Assets\Model\FliesSystem\Scripts\Fly.cs" />
+    <Compile Include="Assets\OpenDoor.cs" />
+    <Compile Include="Assets\OpenDoorLeft.cs" />
+    <Compile Include="Assets\OpenDoorReverse.cs" />
+    <Compile Include="Assets\OpenDoorStright.cs" />
     <Compile Include="Assets\Scripts\Elements\Chains.cs" />
     <Compile Include="Assets\Scripts\Elements\EventTriggerZone.cs" />
     <Compile Include="Assets\Scripts\Elements\MannequineScript.cs" />
