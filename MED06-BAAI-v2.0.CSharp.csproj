@@ -72,9 +72,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\ClosedDoor.cs" />
     <Compile Include="Assets\FliesSystem.cs" />
     <Compile Include="Assets\FliesSystemEditor.cs" />
     <Compile Include="Assets\FliesSystemMenu.cs" />
+    <Compile Include="Assets\IronMaidenSound.cs" />
     <Compile Include="Assets\LightTrigger.cs" />
     <Compile Include="Assets\MinMaxSliderAttribute.cs" />
     <Compile Include="Assets\MinMaxSliderDrawer.cs" />
