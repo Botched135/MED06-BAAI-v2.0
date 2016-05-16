@@ -24,7 +24,8 @@ public class GameAI : MonoBehaviour {
     public List<int> GSR;
     public List<float> BPM;
 
-    private bool calc = false;
+    public bool mode;
+    private bool calc = true;
     private int winner;
     [SerializeField]
     private int weight;
@@ -48,16 +49,16 @@ public class GameAI : MonoBehaviour {
 	}
 	void Update()
     {
-        if(GUI.time > 300 && !calc)
+        if(_sceneManager._currentState == MySceneManager.SceneState.BaselineRoom && !calc)
         {
             TotalScore(HeartRateAverage(BPM), 0, RMSSD(HRV), SDNN(HRV), GSRAverage(GSR));
             ClearVariables();
-            StartCoroutine(_sceneManager._LoadScene(0,1f,1, this));
+            StartCoroutine(_sceneManager._LoadScene(1,1,1, this));
             calc = true;
         }
-        if (Input.GetKeyDown(KeyCode.M))
+        if(_sceneManager._currentState == MySceneManager.SceneState.BaselineRoom)
         {
-            SaveToFile(1, 1 ,1, 1, 1, 1);
+            mode = GUI.mode;
         }
         
     }
@@ -273,7 +274,6 @@ public class GameAI : MonoBehaviour {
             {
                 
                 case MySceneManager.SceneState.Uncanny:
-                   
                     TotalScore(HeartRateAverage(BPM), GSRSpikes , RMSSD(HRV), SDNN(HRV), GSRAverage(GSR));
                     break;
                 case MySceneManager.SceneState.Marvelous:
@@ -298,8 +298,13 @@ public class GameAI : MonoBehaviour {
             else if (numbersOfRoomsComplete >=   3)
             {
                 _trigger.enabled = false;
-                winner = Compare(UScore, MScore, FScore);
-                StartCoroutine(_sceneManager._LoadScene(1.5f,2f,winner, this));
+                if (mode)
+                    StartCoroutine(_sceneManager._LoadScene(1.5f, 2f, 1, this)); //TO-DO, something smart that make it pick the correct scene
+
+                else {
+                    winner = Compare(UScore, MScore, FScore);
+                    StartCoroutine(_sceneManager._LoadScene(1.5f, 2f, winner, this));
+                }
             }
             else {
                 StopCoroutine(_sceneManager._LoadScene(1.5f, 2f,numbersOfRoomsComplete, this));

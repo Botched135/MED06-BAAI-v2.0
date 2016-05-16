@@ -4,30 +4,29 @@ using UnityEngine.SceneManagement;
 
 public class MySceneManager : MonoBehaviour
 {
-    public PlayerDeath player;
     public Fading fadeScript;
     private bool trigger = true;
     public enum SceneState
     {
+        BaselineRoom,
         Uncanny,
         Marvelous,
         Fantastic,
         FinalRoom
     }
-    public SceneState _currentState;
+    public SceneState _currentState = SceneState.BaselineRoom;
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerDeath>() ;
         fadeScript = GetComponent<Fading>();
         DontDestroyOnLoad(gameObject);
         _currentState = CheckState();
 
     }
-    public IEnumerator _LoadScene(int index, GameAI _controller)
+    public IEnumerator _LoadScene(float timer1, float timer2, int index, GameAI _controller)
     {
-        //TO-DO Write down start timer
+        yield return new WaitForSeconds(timer1);
         fadeScript.OnLevelWasLoaded();
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(timer2);
         SceneManager.LoadScene(index);
         OnLevelWasLoaded(index);
         yield return null;
@@ -37,12 +36,6 @@ public class MySceneManager : MonoBehaviour
     void Update()
     {
         _currentState = CheckState();
-        if (player.playerDie && trigger)
-        {
-            fadeScript.BeginFade(2);
-            player.PlayDied();
-            trigger = false;
-        }
     }
     void OnGUI()
     {
@@ -58,16 +51,14 @@ public class MySceneManager : MonoBehaviour
         GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), fadeScript.fadeOutTexture);       // draw the texture to fit the entire screen area
     */
     }
-
-    public void _EventTime()
-    {
-        //TO-DO: Give time for when each 
-    }
     public SceneState CheckState()
     {
         SceneState value;
         switch (SceneManager.GetActiveScene().name)
         {
+            case "BaselineRoom":
+                value = SceneState.BaselineRoom;
+                break;
             case "Horror#1MAJA":
                 value = SceneState.Uncanny;
                 break;

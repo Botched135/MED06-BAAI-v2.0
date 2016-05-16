@@ -32,7 +32,7 @@ public class MonsterU : Monster {
 
         wayPoints = GameObject.FindGameObjectsWithTag("Point1");
         player = GameObject.FindGameObjectWithTag("Player");
-        playerDeath = player.GetComponent<PlayerDeath>();
+
         time = 0;
         //nav.destination = wayPoints[0].transform.position;
 
@@ -62,9 +62,6 @@ public class MonsterU : Monster {
                 
             }
             NoticePlayer();
-            
-            
-            
             Attack();
         
         }
@@ -76,8 +73,7 @@ public class MonsterU : Monster {
 
     public IEnumerator giggle()
     {
-       
-            yield return new WaitForSeconds(8f);
+        yield return new WaitForSeconds(8f);
             switch (select)
             {
                 case 1:
@@ -139,19 +135,18 @@ public class MonsterU : Monster {
     private IEnumerator Teleport()
     {
         
-        yield return new WaitForSeconds(4f);
+        yield return new WaitForSeconds(5f);
 
         //soundfile play for teleport
         AudioSource.PlayClipAtPoint(teleportSound, transform.position);
-        Debug.Log(Mathf.Abs(playerPosition.x - TeleportVector.x));
-        if (Mathf.Abs(playerPosition.x - TeleportVector.x) < 27)
+        if (Mathf.Abs(playerPosition.x - TeleportVector.x) < 25)
         {
-            Debug.Log("TOO CLOSE");
-            transform.position = new Vector3(playerPosition.x - AttackRange/2, transform.position.y, playerPosition.z - AttackRange/2);
+            Debug.Log("Surprise Motherfucker");
+            transform.position = new Vector3(playerPosition.x - AttackRange/2, 0, playerPosition.z - AttackRange/2);
         }
         else
-            transform.position = new Vector3(playerPosition.x - (TeleportVector.x / 2.5f), transform.position.y, playerPosition.z - (TeleportVector.z / 2.5f));
-        transform.rotation = Quaternion.LookRotation(new Vector3(playerPosition.x-transform.position.x, transform.position.y, playerPosition.z-transform.position.z));
+            transform.position = new Vector3(playerPosition.x - (TeleportVector.x / 2.5f), 0, playerPosition.z - (TeleportVector.z / 2.5f));
+        transform.rotation = Quaternion.LookRotation(new Vector3(playerPosition.x-transform.position.x, 0, playerPosition.z-transform.position.z));
 
         StartCoroutine(Teleport());
     }
@@ -159,14 +154,14 @@ public class MonsterU : Monster {
     {
         StopCoroutine(Teleport());
         anim.SetBool("Attack", true);
-        //GUI
+       //GUI
         fade.Die();
         //
          //GUI
         if(fade.alpha >= 1){
             fade.BeginFade(-1);
         }
-        //
+        
         yield return null;
         anim.SetBool("Attack", false);
         yield return new WaitForSeconds(3);
@@ -189,7 +184,6 @@ public class MonsterU : Monster {
             yield return null;
             anim.SetBool("Attack", false);
             yield return new WaitForSeconds(0.5f);
-            playerDeath.playerDie = true;
             StopCoroutine(Teleport());
         }
     }

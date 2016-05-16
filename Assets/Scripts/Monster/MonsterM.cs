@@ -32,7 +32,7 @@ public class MonsterM : Monster {
 
         wayPoints = GameObject.FindGameObjectsWithTag("Point1");
         player = GameObject.FindGameObjectWithTag("Player");
-        playerDeath = player.GetComponent<PlayerDeath>();
+
         time = 0;
         nav.destination = wayPoints[0].transform.position;
 
