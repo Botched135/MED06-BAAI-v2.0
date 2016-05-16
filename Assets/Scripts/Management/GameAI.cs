@@ -6,38 +6,55 @@ using System.Linq;
 using System.Text;
 
 public class GameAI : MonoBehaviour {
-    public float BPMBaseLine = 60; //Do something clever to set in from the initial test
+    [Header("Baselines")]
+    public float BPMBaseLine;
+    public float HRVSDNNBaseline;
+    public float HRVRMSSDBaseline;
+    public float GSRBaseline; //Do something clever to set in from the initial test
 
+    [Header("In-game variables")]
     public int GSRSpikes;
-    public int numbersOfRoomsComplete;
+    public int numbersOfRoomsComplete;  
     public float UScore, MScore, FScore, FinalScore;
     public float UGSRA =0, MGSRA=0, FGSRA=0, FinalGSRA=0; //GSR averages
 
+    [Header("Lists")]
     public List<int> HRV;
     public List<int> GSR;
     public List<float> BPM;
 
+    private bool calc = false;
     private int winner;
     [SerializeField]
     private int weight;
     private MySceneManager _sceneManager;
+    private BaselineGUI GUI;
     public GameObject player;
     private BoxCollider _trigger;
 	
 
 	void Start () {
+        numbersOfRoomsComplete = 1;
         _sceneManager = GetComponent<MySceneManager>();
+        if(_sceneManager._currentState == MySceneManager.SceneState.BaselineRoom)
+        {
+            GameObject camera = GameObject.FindGameObjectWithTag("MainCamera");
+            GUI = camera.GetComponent<BaselineGUI>();
+        }
         player = GameObject.FindGameObjectWithTag("Player");
         AddTrigger();
         weight = 25;
 	}
 	void Update()
     {
-        if (Input.GetKeyDown(KeyCode.M))
+        if(GUI.time > 10 && !calc)
         {
-            SaveToFile(1, 1, 1, 1, 1, 1);
-            
+            TotalScore(HeartRateAverage(BPM), 0, RMSSD(HRV), SDNN(HRV), GSRAverage(GSR));
+            ClearVariables();
+            StartCoroutine(_sceneManager._LoadScene(0,1f,1, this));
+            calc = true;
         }
+        
     }
 
     private void ClearVariables()
@@ -74,6 +91,14 @@ public class GameAI : MonoBehaviour {
     {
         switch (_sceneManager._currentState)
         {
+            case MySceneManager.SceneState.BaselineRoom:
+                BPMBaseLine = heartRate;
+                HRVSDNNBaseline = HRV2;
+                HRVRMSSDBaseline = HRV1;
+                GSRBaseline = GSRAverage;
+                SaveToFile(HRVRMSSDBaseline, HRVSDNNBaseline, BPMBaseLine, 0, GSRBaseline, 0);
+                ClearVariables();
+                break;
             case MySceneManager.SceneState.Uncanny:
                 UScore = ScoreCalc(heartRate, GSRSpikes, HRV1, HRV2,weight);
                 UGSRA = GSRAverage;
@@ -247,7 +272,6 @@ public class GameAI : MonoBehaviour {
                     TotalScore(HeartRateAverage(BPM), GSRSpikes , RMSSD(HRV), SDNN(HRV), GSRAverage(GSR));
                     break;
                 case MySceneManager.SceneState.Marvelous:
-                   
                     TotalScore(HeartRateAverage(BPM), GSRSpikes, RMSSD(HRV), SDNN(HRV), GSRAverage(GSR));
                     break;
                 case MySceneManager.SceneState.Fantastic:
@@ -266,17 +290,17 @@ public class GameAI : MonoBehaviour {
                 _sceneManager.fadeScript.OnLevelWasLoaded();
                 Application.Quit();
             }
-            else if (numbersOfRoomsComplete >=   2)
+            else if (numbersOfRoomsComplete >=   3)
             {
                 _trigger.enabled = false;
                 winner = Compare(UScore, MScore, FScore);
-                StartCoroutine(_sceneManager._LoadScene(winner, this));
+                StartCoroutine(_sceneManager._LoadScene(1.5f,2f,winner, this));
             }
             else {
-                StopCoroutine(_sceneManager._LoadScene(numbersOfRoomsComplete, this));
+                StopCoroutine(_sceneManager._LoadScene(1.5f, 2f,numbersOfRoomsComplete, this));
                 _trigger.enabled = false;
                 numbersOfRoomsComplete++;
-                StartCoroutine(_sceneManager._LoadScene(numbersOfRoomsComplete, this));
+                StartCoroutine(_sceneManager._LoadScene(1.5f, 2f,numbersOfRoomsComplete, this));
 
             }
 
@@ -295,6 +319,10 @@ public class GameAI : MonoBehaviour {
             {
                 switch (_sceneManager._currentState)
                 {
+                    case MySceneManager.SceneState.BaselineRoom:
+                        writer.WriteLine("Baseline Room");
+                        WriteInformation(BPM, RMSSD, SDNN, GSRAverage, writer);
+                        break;
                     case MySceneManager.SceneState.Uncanny:
                         writer.WriteLine("Uncanny");
                         WriteInformation(RMSSD, SDNN, BPM, GSRspikes, GSRAverage, Score, writer);
@@ -319,8 +347,13 @@ public class GameAI : MonoBehaviour {
         else {
             using (StreamWriter writer = new StreamWriter(path))
             {
-                switch (_sceneManager._currentState)
-                {
+                switch (_sceneManager._currentState) { 
+
+
+                    case MySceneManager.SceneState.BaselineRoom:
+                        writer.WriteLine("Baseline Room");
+                        WriteInformation(BPM, RMSSD, SDNN, GSRAverage, writer);
+                        break;
                     case MySceneManager.SceneState.Uncanny:
                         writer.WriteLine("Uncanny");
                         WriteInformation(RMSSD, SDNN, BPM, GSRspikes, GSRAverage, Score, writer);
@@ -357,5 +390,12 @@ public class GameAI : MonoBehaviour {
         writer.WriteLine("RMSSD: " + RMSSD);
         writer.WriteLine("SDNN:" + SDNN);
 
+    }
+    private void WriteInformation(float BPMBaseline, float HRVBaselineRMSSD, float HRVBaselineSDNN, float GSRBaseline, StreamWriter writer)
+    {
+        writer.WriteLine("BPMBaseline: "+BPMBaseLine);
+        writer.WriteLine("HRVBaseline(RMSSD): "+HRVBaselineRMSSD);
+        writer.WriteLine("HRVBaseline(SDNN): " + HRVBaselineSDNN);
+        writer.WriteLine("GSRBaseline: "+GSRBaseline);
     }
 }
