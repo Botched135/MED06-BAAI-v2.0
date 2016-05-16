@@ -9,25 +9,27 @@ public class MySceneManager : MonoBehaviour
     private bool trigger = true;
     public enum SceneState
     {
+        BaselineRoom,
         Uncanny,
         Marvelous,
         Fantastic,
         FinalRoom
     }
-    public SceneState _currentState;
+    public SceneState _currentState = SceneState.BaselineRoom;
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerDeath>() ;
         fadeScript = GetComponent<Fading>();
         DontDestroyOnLoad(gameObject);
         _currentState = CheckState();
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerDeath>() ;
 
     }
-    public IEnumerator _LoadScene(int index, GameAI _controller)
+    public IEnumerator _LoadScene(float timer1, float timer2, int index, GameAI _controller)
     {
         //TO-DO Write down start timer
-        fadeScript.BeginFade(2);
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(timer1);
+        fadeScript.BeginFade(1);
+        yield return new WaitForSeconds(timer2);
         SceneManager.LoadScene(index);
         OnLevelWasLoaded(index);
         yield return null;
@@ -36,8 +38,11 @@ public class MySceneManager : MonoBehaviour
     }
     void Update()
     {
+        if(player == null && _currentState != SceneState.BaselineRoom)
+            player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerDeath>();
+        
         _currentState = CheckState();
-        if (player.playerDie && trigger)
+        if (_currentState != SceneState.BaselineRoom && player.playerDie && trigger)
         {
             fadeScript.BeginFade(2);
             player.PlayDied();
@@ -66,6 +71,9 @@ public class MySceneManager : MonoBehaviour
         SceneState value;
         switch (SceneManager.GetActiveScene().name)
         {
+            case "BaselineRoom":
+                value = SceneState.BaselineRoom;
+                break;
             case "Horror#1MAJA":
                 value = SceneState.Uncanny;
                 break;
