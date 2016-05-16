@@ -292,7 +292,7 @@ public class GameAI : MonoBehaviour {
             }
             if (_sceneManager._currentState == MySceneManager.SceneState.FinalRoom)
             {
-                _sceneManager.fadeScript.BeginFade(1);
+                _sceneManager.fadeScript.OnLevelWasLoaded();
                 Application.Quit();
             }
             else if (numbersOfRoomsComplete >=   3)

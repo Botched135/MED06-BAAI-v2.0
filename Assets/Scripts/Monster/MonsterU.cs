@@ -16,6 +16,11 @@ public class MonsterU : Monster {
 
     // Use this for initialization
     void Start () {
+        //GUI
+        GameObject _temp;
+        _temp = GameObject.FindGameObjectWithTag("EditorOnly");
+        fade = _temp.GetComponent<Fading>();
+        //
         trigger = false;
         anim = GetComponent<Animator>();
         Directions = GameObject.FindGameObjectsWithTag("Front");
@@ -41,7 +46,7 @@ public class MonsterU : Monster {
 	
 	// Update is called once per frame
 	void Update () {
-
+    
 
         if (seenPlayer)
         {
@@ -154,6 +159,14 @@ public class MonsterU : Monster {
     {
         StopCoroutine(Teleport());
         anim.SetBool("Attack", true);
+        //GUI
+        fade.Die();
+        //
+         //GUI
+        if(fade.alpha >= 1){
+            fade.BeginFade(-1);
+        }
+        //
         yield return null;
         anim.SetBool("Attack", false);
         yield return new WaitForSeconds(3);
@@ -170,6 +183,9 @@ public class MonsterU : Monster {
         else
         {
             anim.SetBool("Attack", true);
+            //GUI
+            fade.OnLevelWasLoaded();
+            //
             yield return null;
             anim.SetBool("Attack", false);
             yield return new WaitForSeconds(0.5f);

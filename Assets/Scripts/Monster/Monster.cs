@@ -29,8 +29,10 @@ public class Monster : MonoBehaviour {
     public bool PlayerKnockedDown;
     public Vector3 distanceToPlayer;
     public PlayerDeath playerDeath;
+    public Fading fade;
 
     void Start () {
+        fade = GameObject.FindGameObjectWithTag("EditorOnly").GetComponent<Fading>();
         anim = GetComponent<Animator>();
         Directions = GameObject.FindGameObjectsWithTag("Front");
         wayPointIndex = 0;
