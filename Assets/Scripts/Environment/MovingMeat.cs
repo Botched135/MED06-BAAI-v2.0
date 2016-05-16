@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class MovingMeat : MonoBehaviour {
-	bool movingUp = true;
+	//bool movingUp = true;
 
 	// Use this for initialization
 	void Start () {

@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Scenes/Horror#2_2MAJA.unity
+- path: Assets/Scenes/#1_Main.unity
   isLoaded: 1
   isActive: 1
