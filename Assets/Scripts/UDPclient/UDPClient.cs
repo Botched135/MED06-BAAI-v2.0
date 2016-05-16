@@ -75,6 +75,7 @@ public class UDPClient : MonoBehaviour{
                     BPM = float.Parse(received_data.Substring(thirdSpaceIndex + 1,fouthSpaceIndex-thirdSpaceIndex));
                     HRD = int.Parse(received_data.Substring(fouthSpaceIndex + 1));
 
+                    AIController.time = time;
                     if (HRD != 0)
                     {
                         AIController.HRV.Add(HRD);
