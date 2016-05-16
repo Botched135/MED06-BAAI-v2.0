@@ -26,7 +26,7 @@ public class MySceneManager : MonoBehaviour
     public IEnumerator _LoadScene(int index, GameAI _controller)
     {
         //TO-DO Write down start timer
-        fadeScript.BeginFade(2);
+        fadeScript.OnLevelWasLoaded();
         yield return new WaitForSeconds(3f);
         SceneManager.LoadScene(index);
         OnLevelWasLoaded(index);
@@ -46,6 +46,7 @@ public class MySceneManager : MonoBehaviour
     }
     void OnGUI()
     {
+        /*
         // fade out/in the alpha value using a direction, a speed and Time.deltaTime to convert the operation to seconds
         fadeScript.alpha += fadeScript.fadeDir * fadeScript.fadeSpeed * Time.deltaTime;
         // force (clamp) the number to be between 0 and 1 because GUI.color uses Alpha values between 0 and 1
@@ -55,6 +56,7 @@ public class MySceneManager : MonoBehaviour
         GUI.color = new Color(GUI.color.r, GUI.color.g, GUI.color.b, fadeScript.alpha);
         GUI.depth = fadeScript.drawDepth;                                                              // make the black texture render on top (drawn last)
         GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), fadeScript.fadeOutTexture);       // draw the texture to fit the entire screen area
+    */
     }
 
     public void _EventTime()

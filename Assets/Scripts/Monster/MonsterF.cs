@@ -16,6 +16,11 @@ public class MonsterF : Monster {
 
     // Use this for initialization
     void Awake () {
+        //GUI
+        GameObject _temp;
+        _temp = GameObject.FindGameObjectWithTag("EditorOnly");
+        fade = _temp.GetComponent<Fading>();
+        //
         anim = GetComponent<Animator>();
         Directions = GameObject.FindGameObjectsWithTag("Front");
         wayPointIndex = 0;
@@ -156,8 +161,17 @@ public class MonsterF : Monster {
     {
         nav.Stop();
         anim.SetBool("Attack", true);
+        //GUI
+        fade.Die();
+        //
+        //GUI
+        if(fade.alpha >= 1){
+            fade.BeginFade(-1);
+        }
+        //
         yield return null;
         anim.SetBool("Attack", false);
+
         yield return new WaitForSeconds(3);
         nav.Resume();
         PlayerKnockedDown = true;
@@ -173,6 +187,9 @@ public class MonsterF : Monster {
         {
             nav.Stop();
             anim.SetBool("Attack", true);
+            //GUI
+            fade.OnLevelWasLoaded();
+            //
             yield return null;
             anim.SetBool("Attack", false);
             yield return new WaitForSeconds(0.5f);
