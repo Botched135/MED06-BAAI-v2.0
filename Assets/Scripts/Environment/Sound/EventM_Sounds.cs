@@ -4,6 +4,7 @@ using System.Collections;
 public class EventM_Sounds : MonoBehaviour {
 
     public bool hasCollided = false;
+    public bool hasLaughed = false;
     private bool trigger;
     private Rigidbody _body;
     private Rigidbody thisBody;
@@ -57,15 +58,16 @@ public class EventM_Sounds : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        Debug.Log(GetComponent<Rigidbody>().velocity.sqrMagnitude);
+        //Debug.Log(GetComponent<Rigidbody>().velocity.sqrMagnitude);
+        Debug.Log(rollingSource.volume);
         if (GetComponent<Rigidbody>().velocity.sqrMagnitude < 10)
         {
             rollingSource.volume -= Time.deltaTime/1.5f;
-            if(rollingSource.volume == 0 && hasCollided == false)
+            if(rollingSource.volume == 0 && hasCollided == true && hasLaughed == false)
             {
                 //play laugh here
                 AudioSource.PlayClipAtPoint(laugh, laughingMan.transform.position, 1.0F);
-                hasCollided = true;
+                hasLaughed = true;
                
             }
           
