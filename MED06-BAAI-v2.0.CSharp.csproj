@@ -99,6 +99,7 @@
     <Compile Include="Assets\Scripts\Environment\Sound\Howl.cs" />
     <Compile Include="Assets\Scripts\Lights\LightFlicker.cs" />
     <Compile Include="Assets\Scripts\Lights\RedLight.cs" />
+    <Compile Include="Assets\Scripts\Management\BaselineGUI.cs" />
     <Compile Include="Assets\Scripts\Management\Fading.cs" />
     <Compile Include="Assets\Scripts\Management\GameAI.cs" />
     <Compile Include="Assets\Scripts\Management\GameManager.cs" />
