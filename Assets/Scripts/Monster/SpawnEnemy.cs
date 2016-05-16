@@ -23,7 +23,9 @@ public class SpawnEnemy : MonoBehaviour {
     {
         if(other.gameObject == Player && !Activated)
         {
-            lightTrigger.SetActive(true);
+            if(lightTrigger != null)
+                lightTrigger.SetActive(true);
+
             Destroy(GameObject.FindGameObjectWithTag("Enemy"));
             Instantiate(Enemy, SpawnPoint.transform.position, Quaternion.Euler(new Vector3(0,-90,0)));
             Destroy(partnerTriggerZone);

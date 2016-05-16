@@ -2,6 +2,7 @@
 using System.Collections;
 
 public class MonsterM : Monster {
+    public GameObject Fading;
 
     private bool trigger = false, trigger2 = false;
     //Soundclips etc
@@ -13,6 +14,11 @@ public class MonsterM : Monster {
 
 	// Use this for initialization
 	void Start () {
+        //GUI
+        GameObject _temp;
+        _temp = GameObject.FindGameObjectWithTag("EditorOnly");
+        fade = _temp.GetComponent<Fading>();
+        //
         trigger = false;
         anim = GetComponent<Animator>();
         Directions = GameObject.FindGameObjectsWithTag("Front");
@@ -63,6 +69,7 @@ public class MonsterM : Monster {
     }
     // Update is called once per frame
     void Update () {
+        
         moveSpeed = nav.velocity.sqrMagnitude;
         anim.SetFloat("Speed", moveSpeed * moveSpeed);
         if (seenPlayer)
@@ -117,9 +124,19 @@ public class MonsterM : Monster {
         anim.SetBool("Attack", true);
         yield return null;
         anim.SetBool("Attack", false);
+        //GUI
+        fade.Die();
+        //
+        //GUI
+        if(fade.alpha >= 1){
+            fade.BeginFade(-1);
+        }
+        //
+       
         yield return new WaitForSeconds(3);
         nav.Resume();
         PlayerKnockedDown = true;
+        
     }
     public override IEnumerator KnockBack(bool killer)
     {
@@ -132,10 +149,13 @@ public class MonsterM : Monster {
         {
             nav.Stop();
             anim.SetBool("Attack", true);
+            //GUI
+            fade.OnLevelWasLoaded();
+            //
+            
             yield return null;
             anim.SetBool("Attack", false);
             yield return new WaitForSeconds(0.5f);
-            playerDeath.playerDie = true;
         }
     }
 
