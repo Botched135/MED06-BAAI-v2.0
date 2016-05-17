@@ -4,6 +4,8 @@ using System.Collections;
 public class OpenDoorLeft : MonoBehaviour {
 	bool opened = false;
     bool soundPlayed = false;
+    public AudioClip attackSound;
+    bool attacked = true;
     public AudioClip opening;
 
 	// Use this for initialization
@@ -18,6 +20,7 @@ public class OpenDoorLeft : MonoBehaviour {
             if (soundPlayed == false)
             {
                 AudioSource.PlayClipAtPoint(opening, transform.position, 0.7F);
+               
                 soundPlayed = true;
             }
         }

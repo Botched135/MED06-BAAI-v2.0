@@ -9,6 +9,9 @@ public class MonsterM : Monster {
     public AudioClip laugh01;
     public AudioClip scream01;
     public AudioClip scream02;
+    public AudioClip jumpScareSound;
+    public AudioClip attackSound;
+    bool attacked = true;
     public bool firstTimeSeenPlayer = true;
     int select = 1;
 
@@ -17,12 +20,8 @@ public class MonsterM : Monster {
 	// Use this for initialization
 	void Start () {
         //GUI
-        GameObject _temp;
-        _temp = GameObject.FindGameObjectWithTag("EditorOnly");
-        fade = _temp.GetComponent<Fading>();
-        //
-        GameObject _temp2 = GameObject.FindGameObjectWithTag("EditorOnly");
-        GameAI = _temp2.GetComponent<GameAI>();
+        nav = GetComponent<NavMeshAgent>();
+        
         trigger = false;
         anim = GetComponent<Animator>();
         Directions = GameObject.FindGameObjectsWithTag("Front");
@@ -46,6 +45,11 @@ public class MonsterM : Monster {
         seenPlayer = false;
         anim.SetBool("SeenPlayer", false);
         col = GetComponent<SphereCollider>();
+
+        GameObject _temp;
+        _temp = GameObject.FindGameObjectWithTag("EditorOnly");
+        fade = _temp.GetComponent<Fading>();
+        GameAI = _temp.GetComponent<GameAI>();
     }
     public void OnTriggerStay(Collider other) //EnemySight - should use base keyword in children classes
     {
@@ -106,7 +110,7 @@ public class MonsterM : Monster {
     public IEnumerator laugh()
     {
        
-            yield return new WaitForSeconds(4f);
+            yield return new WaitForSeconds(4.0f);
             switch (select)
             {
                 case 1:
@@ -128,6 +132,14 @@ public class MonsterM : Monster {
         anim.SetBool("Attack", true);
         yield return null;
         anim.SetBool("Attack", false);
+
+        //Sound play
+        if (attacked == true)
+        {
+            AudioSource.PlayClipAtPoint(attackSound, player.transform.position, 1.0F);
+            attacked = false;
+        }
+
         //GUI
         fade.Die();
         //
@@ -139,6 +151,7 @@ public class MonsterM : Monster {
        
         yield return new WaitForSeconds(3);
         nav.Resume();
+        attacked = true;
         PlayerKnockedDown = true;
         
     }
@@ -153,6 +166,14 @@ public class MonsterM : Monster {
         {
             nav.Stop();
             anim.SetBool("Attack", true);
+
+            //Sound play
+            if (attacked == true)
+            {
+                AudioSource.PlayClipAtPoint(attackSound, player.transform.position, 1.0F);
+                attacked = false;
+            }
+
             //GUI
             fade.OnLevelWasLoaded();
             //
@@ -160,6 +181,7 @@ public class MonsterM : Monster {
             yield return null;
             anim.SetBool("Attack", false);
             yield return new WaitForSeconds(0.5f);
+            attacked = true;
         }
     }
 
@@ -169,6 +191,7 @@ public class MonsterM : Monster {
     	if(firstTimeSeenPlayer){
             GameAI.SaveToFile(GameAI.time);
     	 AudioSource.PlayClipAtPoint(laugh01, transform.position);
+         AudioSource.PlayClipAtPoint( jumpScareSound, player.transform.position, 1.0F);
     	 firstTimeSeenPlayer=false;
     	}
     }

@@ -12,6 +12,10 @@ public class MonsterF : Monster {
     public AudioClip neutral01;
     public AudioClip neutral02;
     public AudioClip neutral03;
+    public AudioClip jumpScareSound;
+    bool jumpscared = true;
+    public AudioClip attackSound;
+    bool attacked = true;
     int select = 1;
 
     // Use this for initialization
@@ -133,6 +137,8 @@ public class MonsterF : Monster {
 
     public override void NoticePlayer()
     {
+        
+
         if (moveSpeed * moveSpeed == 0)
         {
             anim.SetBool("RoarFromStance", true);
@@ -141,6 +147,11 @@ public class MonsterF : Monster {
             anim.SetBool("roar", true);
         }
 
+        if (jumpscared == true)
+        {
+            AudioSource.PlayClipAtPoint(jumpScareSound, player.transform.position, 1.0F);
+            jumpscared = false;
+        }
         nav.Stop();
         GameAI.SaveToFile(GameAI.time);
         
@@ -162,6 +173,7 @@ public class MonsterF : Monster {
     {
         nav.Stop();
         anim.SetBool("Attack", true);
+
         //GUI
         fade.Die();
         //
@@ -172,10 +184,17 @@ public class MonsterF : Monster {
         //
         yield return null;
         anim.SetBool("Attack", false);
+        //Sound play
+        if (attacked == true)
+        {
+            AudioSource.PlayClipAtPoint(attackSound, player.transform.position, 1.0F);
+            attacked = false;
+        }
 
         yield return new WaitForSeconds(3);
         nav.Resume();
         PlayerKnockedDown = true;
+        attacked = true;
     }
     public override IEnumerator KnockBack(bool killer)
     {
@@ -188,12 +207,20 @@ public class MonsterF : Monster {
         {
             nav.Stop();
             anim.SetBool("Attack", true);
+
             //GUI
             fade.OnLevelWasLoaded();
             //
             yield return null;
             anim.SetBool("Attack", false);
+            //Sound play
+            if (attacked == true)
+            {
+                AudioSource.PlayClipAtPoint(attackSound, player.transform.position, 1.0F);
+                attacked = false;
+            }
             yield return new WaitForSeconds(0.5f);
+            attacked = true;
         }
     }
 }

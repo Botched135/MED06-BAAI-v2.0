@@ -10,6 +10,7 @@ public class SpawnEnemy : MonoBehaviour {
     private bool Activated;
     public GameObject lightTrigger;
     public GameObject partnerTriggerZone;
+    public AudioClip jumpScareSound;
 
     void Awake()
     {
@@ -23,6 +24,10 @@ public class SpawnEnemy : MonoBehaviour {
     {
         if(other.gameObject == Player && !Activated)
         {
+
+            //Sound
+           // AudioSource.PlayClipAtPoint( jumpScareSound , Player.transform.position , 1.0F);
+
             if(lightTrigger != null)
                 lightTrigger.SetActive(true);
 
