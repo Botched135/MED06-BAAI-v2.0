@@ -8,14 +8,24 @@ public class BaselineGUI : MonoBehaviour {
     private int mode1, mode2;
     public float Xsize;
     public float YSize;
+    public AudioSource source;
+   
+    
 	// Use this for initialization
 	void Start () {
+        source = GetComponent<AudioSource>();
         Xsize = 500;
         YSize = Xsize;
+        source.volume = 0.5f;
 	}
 	
 	// Update is called once per frame
 	void Update () {
+    
+        if (!source.isPlaying)
+        {
+            source.Play();
+        }
         time += Time.deltaTime;
         Timer = (int)time;
 	}
