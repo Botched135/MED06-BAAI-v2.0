@@ -26,6 +26,7 @@ public class GameAI : MonoBehaviour {
 
     public bool mode;
     private bool calc = true;
+    private bool trig = false;
     private int winner;
     [SerializeField]
     private int weight;
@@ -49,11 +50,19 @@ public class GameAI : MonoBehaviour {
 	}
 	void Update()
     {
+        if(GUI.time > 300 && !trig)
+        {
+            calc = false;
+            trig = true;
+        }
         if(_sceneManager._currentState == MySceneManager.SceneState.BaselineRoom && !calc)
         {
             TotalScore(HeartRateAverage(BPM), 0, RMSSD(HRV), SDNN(HRV), GSRAverage(GSR));
             ClearVariables();
-            StartCoroutine(_sceneManager._LoadScene(1,1,1, this));
+            GUI.source.Stop();
+            StartCoroutine(_sceneManager._LoadScene(0,0,1, this));
+
+            
             calc = true;
         }
         if(_sceneManager._currentState == MySceneManager.SceneState.BaselineRoom)
