@@ -75,7 +75,7 @@ public class MonsterU : Monster {
 
     public IEnumerator giggle()
     {
-        yield return new WaitForSeconds(4f);
+        yield return new WaitForSeconds(4.0f);
             switch (select)
             {
                 case 1:
