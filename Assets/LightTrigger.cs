@@ -24,7 +24,7 @@ public class LightTrigger : MonoBehaviour {
         {
 
             GetComponent<BoxCollider>().enabled = false;
-            AudioSource.PlayClipAtPoint(lightsOut, new Vector3(Player.transform.position.x, Player.transform.position.y + 2, Player.transform.position.z));
+            AudioSource.PlayClipAtPoint(lightsOut, new Vector3(Player.transform.position.x, Player.transform.position.y + 2, Player.transform.position.z), 1.0F);
             GameAI.SaveToFile(GameAI.time);
             foreach (GameObject lamp in Lamps)
             {
@@ -35,8 +35,9 @@ public class LightTrigger : MonoBehaviour {
             
             
             yield return new WaitForSeconds(3f);
-            AudioSource.PlayClipAtPoint(jumpScare, Enemy.transform.position, 1.0F);
+           
             Enemy.transform.position = new Vector3(Player.transform.position.x-4, Enemy.transform.position.y, Player.transform.position.z);
+            
             Enemy.transform.LookAt(Player.transform);
             yield return new WaitForSeconds(0.75f);
             foreach (GameObject lamp in Lamps)
@@ -45,7 +46,7 @@ public class LightTrigger : MonoBehaviour {
 
             }
             RenderSettings.ambientIntensity = 1;
-           
+            AudioSource.PlayClipAtPoint(jumpScare, Enemy.transform.position, 1.0F);
 
             Destroy(partnerTriggerZone);
             Destroy(gameObject);
