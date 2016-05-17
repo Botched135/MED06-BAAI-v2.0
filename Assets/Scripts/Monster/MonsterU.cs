@@ -11,6 +11,8 @@ public class MonsterU : Monster {
     public AudioClip giggle02;
     public AudioClip giggle03;
     public AudioClip giggle04;
+    public AudioClip attackSound;
+    bool attacked = true;
     public bool firstTimeSeenPlayer = true;
     int select = 1;
 
@@ -73,7 +75,7 @@ public class MonsterU : Monster {
 
     public IEnumerator giggle()
     {
-        yield return new WaitForSeconds(8f);
+        yield return new WaitForSeconds(4.0f);
             switch (select)
             {
                 case 1:
@@ -126,7 +128,7 @@ public class MonsterU : Monster {
         // Jacob - Måske skal vi ændre ambience om til musik når man bliver set af et monster
         if (firstTimeSeenPlayer)
         {
-            AudioSource.PlayClipAtPoint(giggle03, transform.position);
+           // AudioSource.PlayClipAtPoint(giggle03, transform.position);
             firstTimeSeenPlayer = false;
         }
 
@@ -152,8 +154,16 @@ public class MonsterU : Monster {
     }
     public override IEnumerator KnockBack() // do some sound of attack
     {
+        
         StopCoroutine(Teleport());
         anim.SetBool("Attack", true);
+
+        //Sound play
+        if (attacked == true)
+        {
+            AudioSource.PlayClipAtPoint(attackSound, player.transform.position, 1.0F);
+            attacked = false;
+        }
        //GUI
         fade.Die();
         //
@@ -183,6 +193,7 @@ public class MonsterU : Monster {
             //
             yield return null;
             anim.SetBool("Attack", false);
+            attacked = true;
             yield return new WaitForSeconds(0.5f);
             StopCoroutine(Teleport());
         }
