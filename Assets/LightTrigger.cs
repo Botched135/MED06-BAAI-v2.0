@@ -6,6 +6,7 @@ public class LightTrigger : MonoBehaviour {
     private GameObject Player;
 
     private bool Activated;
+    private GameAI GameAI;
     public GameObject partnerTriggerZone;
     public GameObject[] Lamps = new GameObject[12];
 
@@ -15,6 +16,8 @@ public class LightTrigger : MonoBehaviour {
     // Use this for initialization
     IEnumerator OnTriggerEnter(Collider other)
     {
+        GameObject _temp = GameObject.FindGameObjectWithTag("EditorOnly");
+        GameAI = _temp.GetComponent<GameAI>();
         Player = GameObject.FindGameObjectWithTag("Player");
         Enemy = GameObject.FindGameObjectWithTag("Enemy");
         if (other.gameObject.tag == "Player")
@@ -22,6 +25,7 @@ public class LightTrigger : MonoBehaviour {
 
             GetComponent<BoxCollider>().enabled = false;
             AudioSource.PlayClipAtPoint(lightsOut, new Vector3(Player.transform.position.x, Player.transform.position.y + 2, Player.transform.position.z));
+            GameAI.SaveToFile(GameAI.time);
             foreach (GameObject lamp in Lamps)
             {
                 lamp.SetActive(false);
