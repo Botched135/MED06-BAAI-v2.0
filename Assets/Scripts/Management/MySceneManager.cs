@@ -17,8 +17,9 @@ public class MySceneManager : MonoBehaviour
     public SceneState _currentState = SceneState.BaselineRoom;
     void Start()
     {
-        fadeScript = GetComponent<Fading>();
         DontDestroyOnLoad(gameObject);
+        fadeScript = GetComponent<Fading>();
+        
         _currentState = CheckState();
 
     }
@@ -28,8 +29,8 @@ public class MySceneManager : MonoBehaviour
         fadeScript.OnLevelWasLoaded();
         yield return new WaitForSeconds(timer2);
         SceneManager.LoadScene(index);
+        yield return new WaitForSeconds(2f);
         OnLevelWasLoaded(index);
-        yield return null;
         _controller.player = GameObject.FindGameObjectWithTag("Player");
         _controller.AddTrigger();
     }

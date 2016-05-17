@@ -25,7 +25,7 @@ public class GameAI : MonoBehaviour {
     public List<float> BPM;
 
     public bool mode;
-    private bool calc = true;
+    private bool calc = false;
     private bool trig = false;
     private int winner;
     [SerializeField]
@@ -44,34 +44,26 @@ public class GameAI : MonoBehaviour {
             GameObject camera = GameObject.FindGameObjectWithTag("MainCamera");
             GUI = camera.GetComponent<BaselineGUI>();
         }
-        player = GameObject.FindGameObjectWithTag("Player");
+        GUI.GameAI = GetComponent<GameAI>();
         AddTrigger();
         weight = 25;
 	}
 	void Update()
     {
-        if(GUI.time > 300 && !trig)
-        {
-            calc = false;
-            trig = true;
-        }
-        if(_sceneManager._currentState == MySceneManager.SceneState.BaselineRoom && !calc)
-        {
-            TotalScore(HeartRateAverage(BPM), 0, RMSSD(HRV), SDNN(HRV), GSRAverage(GSR));
-            ClearVariables();
-            GUI.source.Stop();
-            StartCoroutine(_sceneManager._LoadScene(0,0,1, this));
-
-            
-            calc = true;
-        }
-        if(_sceneManager._currentState == MySceneManager.SceneState.BaselineRoom)
-        {
-            mode = GUI.mode;
-        }
+        
+            if (_sceneManager._currentState == MySceneManager.SceneState.BaselineRoom)
+            {
+                mode = GUI.mode;
+            }
         
     }
 
+    public void intialReads()
+    {
+        TotalScore(HeartRateAverage(BPM), 0, RMSSD(HRV), SDNN(HRV), GSRAverage(GSR));
+        ClearVariables();
+        StartCoroutine(_sceneManager._LoadScene(0, 0, 1, this));
+    }
     private void ClearVariables()
     {
         HRV.Clear();

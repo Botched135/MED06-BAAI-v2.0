@@ -9,11 +9,12 @@ public class BaselineGUI : MonoBehaviour {
     public float Xsize;
     public float YSize;
     public AudioSource source;
+    public GameAI GameAI;
+    public GameObject temp;
    
     
 	// Use this for initialization
 	void Start () {
-        source = GetComponent<AudioSource>();
         Xsize = 500;
         YSize = Xsize;
         source.volume = 0.5f;
@@ -28,11 +29,16 @@ public class BaselineGUI : MonoBehaviour {
         }
         time += Time.deltaTime;
         Timer = (int)time;
-	}
+        if (Timer == 300) //300 for 5 min
+        {
+            GameAI.intialReads();
+        }
+    }
     void OnGUI()
     {
-        GUI.Box(new Rect((Screen.width/2)-Xsize/2, 0, Xsize, YSize), "\n \n \n \n \n \n \n This is initial measurement. Sit back, relax, and enjoy the music. \n \n The game will start in "+(300 -Timer).ToString()+" seconds");
-        if(GUI.Button(new Rect((Screen.width/2)-50,(Screen.height/2)+25,100, 50),"Mode: "+mode2)){
+        GUI.Box(new Rect((Screen.width/2)-250, 0, 500, 500), "\n \n \n \n \n \n \n This is initial measurement. Sit back, relax, and enjoy the music. \n \n The game will start in "+(300 -Timer).ToString()+" seconds");
+        
+        if (GUI.Button(new Rect((Screen.width/2)-50,(Screen.height/2)+25,100, 50),"Mode: "+mode2)){
             mode1++;
             mode = !mode;
             mode2 = mode1%2;
