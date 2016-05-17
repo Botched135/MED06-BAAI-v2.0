@@ -8,8 +8,12 @@ public class MarvelousTrigger : MonoBehaviour {
     [Range(0, 1000)]
     public float _force;
     private Rigidbody _body;
+    private GameAI GameAI;
+
 	// Use this for initialization
 	void Start () {
+        GameObject _temp = GameObject.FindGameObjectWithTag("EditorOnly");
+        GameAI = _temp.GetComponent<GameAI>();
         Player = GameObject.FindGameObjectWithTag("Player");
         _object.SetActive(false);
         _body = _object.GetComponent<Rigidbody>();
@@ -21,6 +25,7 @@ public class MarvelousTrigger : MonoBehaviour {
     {
         if(other.gameObject == Player)
         {
+            GameAI.SaveToFile(GameAI.time);
             _object.SetActive(true);
             _body.AddForce((transform.position-_object.transform.position) * _force);
             Destroy(otherTrigger);

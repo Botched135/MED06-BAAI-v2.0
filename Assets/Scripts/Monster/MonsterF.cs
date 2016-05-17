@@ -4,7 +4,7 @@ using System.Collections;
 public class MonsterF : Monster {
     private bool Roar;
     private bool trigger = false, trigger2 =false;
-
+    private GameAI GameAI;
     //Soundclips etc
     public AudioClip attack01;
     public AudioClip attack02;
@@ -15,12 +15,14 @@ public class MonsterF : Monster {
     int select = 1;
 
     // Use this for initialization
-    void Awake () {
+    void Start () {
         //GUI
         GameObject _temp;
         _temp = GameObject.FindGameObjectWithTag("EditorOnly");
         fade = _temp.GetComponent<Fading>();
         //
+        GameObject _temp2 = GameObject.FindGameObjectWithTag("EditorOnly");
+        GameAI = _temp2.GetComponent<GameAI>();
         anim = GetComponent<Animator>();
         Directions = GameObject.FindGameObjectsWithTag("Front");
         wayPointIndex = 0;
@@ -140,7 +142,7 @@ public class MonsterF : Monster {
         }
 
         nav.Stop();
-        
+        GameAI.SaveToFile(GameAI.time);
         
         i += Time.deltaTime;
         if (!trigger && i > 1)

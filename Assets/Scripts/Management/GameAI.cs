@@ -299,7 +299,7 @@ public class GameAI : MonoBehaviour {
             {
                 _trigger.enabled = false;
                 if (mode)
-                    StartCoroutine(_sceneManager._LoadScene(1.5f, 2f, 1, this)); //TO-DO, something smart that make it pick the correct scene
+                    StartCoroutine(_sceneManager._LoadScene(1.5f, 2f, 5, this)); //TO-DO, something smart that make it pick the correct scene
 
                 else {
                     winner = Compare(UScore, MScore, FScore);

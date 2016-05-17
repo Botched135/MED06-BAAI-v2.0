@@ -12,6 +12,8 @@ public class MonsterM : Monster {
     public bool firstTimeSeenPlayer = true;
     int select = 1;
 
+    private GameAI GameAI;
+
 	// Use this for initialization
 	void Start () {
         //GUI
@@ -19,6 +21,8 @@ public class MonsterM : Monster {
         _temp = GameObject.FindGameObjectWithTag("EditorOnly");
         fade = _temp.GetComponent<Fading>();
         //
+        GameObject _temp2 = GameObject.FindGameObjectWithTag("EditorOnly");
+        GameAI = _temp2.GetComponent<GameAI>();
         trigger = false;
         anim = GetComponent<Animator>();
         Directions = GameObject.FindGameObjectsWithTag("Front");
@@ -163,6 +167,7 @@ public class MonsterM : Monster {
     {
        //play sound
     	if(firstTimeSeenPlayer){
+            GameAI.SaveToFile(GameAI.time);
     	 AudioSource.PlayClipAtPoint(laugh01, transform.position);
     	 firstTimeSeenPlayer=false;
     	}
