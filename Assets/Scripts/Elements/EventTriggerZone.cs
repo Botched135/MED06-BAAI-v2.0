@@ -5,8 +5,11 @@ public class EventTriggerZone : MonoBehaviour {
     public GameObject MannequineManager;
     private GameObject PlayerRef;
     public GameObject TPSet;
+    private GameAI GameAI;
 	// Use this for initialization
 	void Start () {
+        GameObject _temp = GameObject.FindGameObjectWithTag("EditorOnly");
+        GameAI = _temp.GetComponent<GameAI>();
         PlayerRef = GameObject.FindGameObjectWithTag("Player");
         MannequineManager.GetComponent<MannequineScript>().enabled = false;
         TPSet.SetActive(false);
@@ -17,6 +20,7 @@ public class EventTriggerZone : MonoBehaviour {
     {
             if(col.gameObject == PlayerRef)
         {
+     
             TPSet.SetActive(true);
             MannequineManager.GetComponent<MannequineScript>().enabled = true;
             Destroy(gameObject);
