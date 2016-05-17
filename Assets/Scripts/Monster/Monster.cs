@@ -28,9 +28,10 @@ public class Monster : MonoBehaviour {
     public float AttackRange;
     public bool PlayerKnockedDown;
     public Vector3 distanceToPlayer;
-    public PlayerDeath playerDeath;
+    public Fading fade;
 
     void Start () {
+        fade = GameObject.FindGameObjectWithTag("EditorOnly").GetComponent<Fading>();
         anim = GetComponent<Animator>();
         Directions = GameObject.FindGameObjectsWithTag("Front");
         wayPointIndex = 0;
@@ -42,7 +43,6 @@ public class Monster : MonoBehaviour {
 
         wayPoints = GameObject.FindGameObjectsWithTag("Point1");
         player = GameObject.FindGameObjectWithTag("Player");
-        playerDeath = player.GetComponent<PlayerDeath>();
         time = 0;
         nav.destination = wayPoints[0].transform.position;
 
@@ -249,7 +249,6 @@ public class Monster : MonoBehaviour {
             yield return null;
             anim.SetBool("Attack", false);
             yield return new WaitForSeconds(0.5f);
-            playerDeath.playerDie = true; 
         }
     }
 

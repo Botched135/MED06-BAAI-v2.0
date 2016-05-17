@@ -4,7 +4,6 @@ using UnityEngine.SceneManagement;
 
 public class MySceneManager : MonoBehaviour
 {
-    public PlayerDeath player;
     public Fading fadeScript;
     private bool trigger = true;
     public enum SceneState
@@ -21,14 +20,12 @@ public class MySceneManager : MonoBehaviour
         fadeScript = GetComponent<Fading>();
         DontDestroyOnLoad(gameObject);
         _currentState = CheckState();
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerDeath>() ;
 
     }
     public IEnumerator _LoadScene(float timer1, float timer2, int index, GameAI _controller)
     {
-        //TO-DO Write down start timer
         yield return new WaitForSeconds(timer1);
-        fadeScript.BeginFade(1);
+        fadeScript.OnLevelWasLoaded();
         yield return new WaitForSeconds(timer2);
         SceneManager.LoadScene(index);
         OnLevelWasLoaded(index);
@@ -38,19 +35,11 @@ public class MySceneManager : MonoBehaviour
     }
     void Update()
     {
-        if(player == null && _currentState != SceneState.BaselineRoom)
-            player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerDeath>();
-        
         _currentState = CheckState();
-        if (_currentState != SceneState.BaselineRoom && player.playerDie && trigger)
-        {
-            fadeScript.BeginFade(2);
-            player.PlayDied();
-            trigger = false;
-        }
     }
     void OnGUI()
     {
+        /*
         // fade out/in the alpha value using a direction, a speed and Time.deltaTime to convert the operation to seconds
         fadeScript.alpha += fadeScript.fadeDir * fadeScript.fadeSpeed * Time.deltaTime;
         // force (clamp) the number to be between 0 and 1 because GUI.color uses Alpha values between 0 and 1
@@ -60,11 +49,7 @@ public class MySceneManager : MonoBehaviour
         GUI.color = new Color(GUI.color.r, GUI.color.g, GUI.color.b, fadeScript.alpha);
         GUI.depth = fadeScript.drawDepth;                                                              // make the black texture render on top (drawn last)
         GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), fadeScript.fadeOutTexture);       // draw the texture to fit the entire screen area
-    }
-
-    public void _EventTime()
-    {
-        //TO-DO: Give time for when each 
+    */
     }
     public SceneState CheckState()
     {

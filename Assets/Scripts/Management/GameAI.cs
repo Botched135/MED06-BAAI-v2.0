@@ -7,7 +7,7 @@ using System.Text;
 
 public class GameAI : MonoBehaviour {
     [Header("Baselines")]
-    public float BPMBaseLine;
+    public float BPMBaseline;
     public float HRVSDNNBaseline;
     public float HRVRMSSDBaseline;
     public float GSRBaseline; //Do something clever to set in from the initial test
@@ -17,13 +17,15 @@ public class GameAI : MonoBehaviour {
     public int numbersOfRoomsComplete;  
     public float UScore, MScore, FScore, FinalScore;
     public float UGSRA =0, MGSRA=0, FGSRA=0, FinalGSRA=0; //GSR averages
+    public float time;
 
     [Header("Lists")]
     public List<int> HRV;
     public List<int> GSR;
     public List<float> BPM;
 
-    private bool calc = false;
+    public bool mode;
+    private bool calc = true;
     private int winner;
     [SerializeField]
     private int weight;
@@ -47,12 +49,16 @@ public class GameAI : MonoBehaviour {
 	}
 	void Update()
     {
-        if(GUI.time > 10 && !calc)
+        if(_sceneManager._currentState == MySceneManager.SceneState.BaselineRoom && !calc)
         {
             TotalScore(HeartRateAverage(BPM), 0, RMSSD(HRV), SDNN(HRV), GSRAverage(GSR));
             ClearVariables();
-            StartCoroutine(_sceneManager._LoadScene(0,1f,1, this));
+            StartCoroutine(_sceneManager._LoadScene(1,1,1, this));
             calc = true;
+        }
+        if(_sceneManager._currentState == MySceneManager.SceneState.BaselineRoom)
+        {
+            mode = GUI.mode;
         }
         
     }
@@ -83,7 +89,7 @@ public class GameAI : MonoBehaviour {
         }
         else
         {
-            return Compare(UGSRA, MGSRA, FGSRA);   
+            return Compare(GSRBaseline-UGSRA, GSRBaseline - MGSRA, GSRBaseline - FGSRA);   
         }
         return highestScore + 2;
     }
@@ -92,11 +98,11 @@ public class GameAI : MonoBehaviour {
         switch (_sceneManager._currentState)
         {
             case MySceneManager.SceneState.BaselineRoom:
-                BPMBaseLine = heartRate;
+                BPMBaseline = heartRate;
                 HRVSDNNBaseline = HRV2;
                 HRVRMSSDBaseline = HRV1;
                 GSRBaseline = GSRAverage;
-                SaveToFile(HRVRMSSDBaseline, HRVSDNNBaseline, BPMBaseLine, 0, GSRBaseline, 0);
+                SaveToFile(HRVRMSSDBaseline, HRVSDNNBaseline, BPMBaseline, 0, GSRBaseline, 0);
                 ClearVariables();
                 break;
             case MySceneManager.SceneState.Uncanny:
@@ -130,10 +136,10 @@ public class GameAI : MonoBehaviour {
     {
         float results = 0;
 
-        results = Clamping((heartRate - BPMBaseLine)/2, scale) +
+        results = Clamping((heartRate - BPMBaseline)/2, scale) +
                   Clamping(GSRSpikes * 1.5f, scale) + 
-                  Clamping((scale / 2) - HRV1, scale / 2) +
-                  Clamping((scale / 2) - HRV2, scale / 2);
+                  Clamping((scale / 2) - (HRVRMSSDBaseline-HRV1), scale / 2) +
+                  Clamping((scale / 2) - (HRVSDNNBaseline-HRV2), scale / 2);
 
         return results;
     }
@@ -268,7 +274,6 @@ public class GameAI : MonoBehaviour {
             {
                 
                 case MySceneManager.SceneState.Uncanny:
-                   
                     TotalScore(HeartRateAverage(BPM), GSRSpikes , RMSSD(HRV), SDNN(HRV), GSRAverage(GSR));
                     break;
                 case MySceneManager.SceneState.Marvelous:
@@ -287,14 +292,19 @@ public class GameAI : MonoBehaviour {
             }
             if (_sceneManager._currentState == MySceneManager.SceneState.FinalRoom)
             {
-                _sceneManager.fadeScript.BeginFade(1);
+                _sceneManager.fadeScript.OnLevelWasLoaded();
                 Application.Quit();
             }
             else if (numbersOfRoomsComplete >=   3)
             {
                 _trigger.enabled = false;
-                winner = Compare(UScore, MScore, FScore);
-                StartCoroutine(_sceneManager._LoadScene(1.5f,2f,winner, this));
+                if (mode)
+                    StartCoroutine(_sceneManager._LoadScene(1.5f, 2f, 1, this)); //TO-DO, something smart that make it pick the correct scene
+
+                else {
+                    winner = Compare(UScore, MScore, FScore);
+                    StartCoroutine(_sceneManager._LoadScene(1.5f, 2f, winner, this));
+                }
             }
             else {
                 StopCoroutine(_sceneManager._LoadScene(1.5f, 2f,numbersOfRoomsComplete, this));
@@ -379,10 +389,74 @@ public class GameAI : MonoBehaviour {
         
 
     }
+    public void SaveToFile(float time)
+    {
+        string path = string.Format(@"c:\Data\Event{0}.txt", _sceneManager._currentState);
+        if (!File.Exists(path))
+        {
+
+            using (StreamWriter writer = File.CreateText(path))
+            {
+                switch (_sceneManager._currentState)
+                {
+                    case MySceneManager.SceneState.Uncanny:
+                        writer.WriteLine("Uncanny Event");
+                        writer.WriteLine("Start Time: "+time);
+                        break;
+                    case MySceneManager.SceneState.Marvelous:
+                        writer.WriteLine("Marvelous Event");
+                        writer.WriteLine("Start Time: " + time);
+                        break;
+                    case MySceneManager.SceneState.Fantastic:
+                        writer.WriteLine("Fantastic Event");
+                        writer.WriteLine("Start Time: " + time);
+                        break;
+                    case MySceneManager.SceneState.FinalRoom:
+                        writer.WriteLine("FinalRoom Event");
+                        writer.WriteLine("Start Time: " + time);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+        else {
+            using (StreamWriter writer = new StreamWriter(path))
+            {
+                switch (_sceneManager._currentState)
+                {
+                    case MySceneManager.SceneState.BaselineRoom:
+                        writer.WriteLine("Baseline Room");
+                        writer.WriteLine("Start Time: " + time);
+                        break;
+                    case MySceneManager.SceneState.Uncanny:
+                        writer.WriteLine("Uncanny Event");
+                        writer.WriteLine("Start Time: " + time);
+                        break;
+                    case MySceneManager.SceneState.Marvelous:
+                        writer.WriteLine("Marvelous Event");
+                        writer.WriteLine("Start Time: " + time);
+                        break;
+                    case MySceneManager.SceneState.Fantastic:
+                        writer.WriteLine("Fantastic Event");
+                        writer.WriteLine("Start Time: " + time);
+                        break;
+                    case MySceneManager.SceneState.FinalRoom:
+                        writer.WriteLine("FinalRoom Event");
+                        writer.WriteLine("Start Time: " + time);
+                        break;
+                    default:
+                        break;
+
+                }
+            }
+        }
+
+    }
  
     private void WriteInformation(float RMSSD, float SDNN, float BPM, int GSRspikes, float GSRAverage, float Score, StreamWriter writer)
     {
-        
+        writer.WriteLine("Time End: " + time);
         writer.WriteLine("Total Score: " + Score);
         writer.WriteLine("BPM: " + BPM);
         writer.WriteLine("GSR-spikes: " + GSRspikes);
@@ -393,7 +467,8 @@ public class GameAI : MonoBehaviour {
     }
     private void WriteInformation(float BPMBaseline, float HRVBaselineRMSSD, float HRVBaselineSDNN, float GSRBaseline, StreamWriter writer)
     {
-        writer.WriteLine("BPMBaseline: "+BPMBaseLine);
+        writer.WriteLine("Time End: " + time);
+        writer.WriteLine("BPMBaseline: "+BPMBaseline);
         writer.WriteLine("HRVBaseline(RMSSD): "+HRVBaselineRMSSD);
         writer.WriteLine("HRVBaseline(SDNN): " + HRVBaselineSDNN);
         writer.WriteLine("GSRBaseline: "+GSRBaseline);
