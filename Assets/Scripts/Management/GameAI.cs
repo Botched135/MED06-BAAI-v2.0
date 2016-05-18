@@ -402,19 +402,31 @@ public class GameAI : MonoBehaviour {
                 {
                     case MySceneManager.SceneState.Uncanny:
                         writer.WriteLine("Uncanny Event");
-                        writer.WriteLine("Start Time: "+time);
+                        if (mode)
+                            writer.WriteLine("Start Time: " + System.DateTime.Now.ToString("yyyy-MM-dd_HH:mm:ss"));
+                        else
+                            writer.WriteLine("Start Time: " + time);
                         break;
                     case MySceneManager.SceneState.Marvelous:
                         writer.WriteLine("Marvelous Event");
-                        writer.WriteLine("Start Time: " + time);
+                        if (mode)
+                            writer.WriteLine("Start Time: " + System.DateTime.Now.ToString("yyyy-MM-dd_HH:mm:ss"));
+                        else
+                            writer.WriteLine("Start Time: " + time);
                         break;
                     case MySceneManager.SceneState.Fantastic:
                         writer.WriteLine("Fantastic Event");
-                        writer.WriteLine("Start Time: " + time);
+                        if (mode)
+                            writer.WriteLine("Start Time: " + System.DateTime.Now.ToString("yyyy-MM-dd_HH:mm:ss"));
+                        else
+                            writer.WriteLine("Start Time: " + time);
                         break;
                     case MySceneManager.SceneState.FinalRoom:
                         writer.WriteLine("FinalRoom Event");
-                        writer.WriteLine("Start Time: " + time);
+                        if (mode)
+                            writer.WriteLine("Start Time: " + System.DateTime.Now.ToString("yyyy-MM-dd_HH:mm:ss"));
+                        else
+                            writer.WriteLine("Start Time: " + time);
                         break;
                     default:
                         break;
@@ -428,23 +440,38 @@ public class GameAI : MonoBehaviour {
                 {
                     case MySceneManager.SceneState.BaselineRoom:
                         writer.WriteLine("Baseline Room");
-                        writer.WriteLine("Start Time: " + time);
+                        if (mode)
+                            writer.WriteLine("Start Time: " + System.DateTime.Now.ToString("yyyy-MM-dd_HH:mm:ss"));
+                        else
+                            writer.WriteLine("Start Time: " + time);
                         break;
                     case MySceneManager.SceneState.Uncanny:
                         writer.WriteLine("Uncanny Event");
-                        writer.WriteLine("Start Time: " + time);
+                        if (mode)
+                            writer.WriteLine("Start Time: " + System.DateTime.Now.ToString("yyyy-MM-dd_HH:mm:ss"));
+                        else
+                            writer.WriteLine("Start Time: " + time);
                         break;
                     case MySceneManager.SceneState.Marvelous:
                         writer.WriteLine("Marvelous Event");
-                        writer.WriteLine("Start Time: " + time);
+                        if (mode)
+                            writer.WriteLine("Start Time: " + System.DateTime.Now.ToString("yyyy-MM-dd_HH:mm:ss"));
+                        else
+                            writer.WriteLine("Start Time: " + time);
                         break;
                     case MySceneManager.SceneState.Fantastic:
                         writer.WriteLine("Fantastic Event");
-                        writer.WriteLine("Start Time: " + time);
+                        if (mode)
+                            writer.WriteLine("Start Time: " + System.DateTime.Now.ToString("yyyy-MM-dd_HH:mm:ss"));
+                        else
+                            writer.WriteLine("Start Time: " + time);
                         break;
                     case MySceneManager.SceneState.FinalRoom:
                         writer.WriteLine("FinalRoom Event");
-                        writer.WriteLine("Start Time: " + time);
+                        if (mode)
+                            writer.WriteLine("Start Time: " + System.DateTime.Now.ToString("yyyy-MM-dd_HH:mm:ss"));
+                        else
+                            writer.WriteLine("Start Time: " + time);
                         break;
                     default:
                         break;
@@ -457,7 +484,10 @@ public class GameAI : MonoBehaviour {
  
     private void WriteInformation(float RMSSD, float SDNN, float BPM, int GSRspikes, float GSRAverage, float Score, StreamWriter writer)
     {
-        writer.WriteLine("Time End: " + time);
+        if (mode)
+            writer.WriteLine("Time End: "+ System.DateTime.Now.ToString("yyyy-MM-dd_HH:mm:ss"));
+        else
+            writer.WriteLine("Time End: " + time);
         writer.WriteLine("Total Score: " + Score);
         writer.WriteLine("BPM: " + BPM);
         writer.WriteLine("GSR-spikes: " + GSRspikes);
@@ -468,7 +498,10 @@ public class GameAI : MonoBehaviour {
     }
     private void WriteInformation(float BPMBaseline, float HRVBaselineRMSSD, float HRVBaselineSDNN, float GSRBaseline, StreamWriter writer)
     {
-        writer.WriteLine("Time End: " + time);
+        if (mode)
+            writer.WriteLine("Time End: " + System.DateTime.Now.ToString("yyyy-MM-dd_HH:mm:ss"));
+        else
+            writer.WriteLine("Time End: " + time);
         writer.WriteLine("BPMBaseline: "+BPMBaseline);
         writer.WriteLine("HRVBaseline(RMSSD): "+HRVBaselineRMSSD);
         writer.WriteLine("HRVBaseline(SDNN): " + HRVBaselineSDNN);

@@ -29,7 +29,7 @@ public class BaselineGUI : MonoBehaviour {
         }
         time += Time.deltaTime;
         Timer = (int)time;
-        if (Timer == 300) //300 for 5 min
+        if (Timer == 10) //300 for 5 min
         {
             GameAI.intialReads();
         }
