@@ -112,11 +112,11 @@ public class MannequineScript : MonoBehaviour {
             }
             Mannequnies[i].transform.position = new Vector3(temp[i].x, 1.5f, temp[i].z);
             Mannequnies[i].transform.LookAt(new Vector3(Player.gameObject.transform.position.x, Mannequnies[i].transform.position.y, Player.gameObject.transform.position.z));
-            
 
+            AudioSource.PlayClipAtPoint(teleportSound, Mannequnies[i].transform.position, 0.7f);
 
         }
-        AudioSource.PlayClipAtPoint(teleportSound, Mannequnies[0].transform.position, 0.7f);
+        
 
     }
     void Evaluate()

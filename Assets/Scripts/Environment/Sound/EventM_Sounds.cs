@@ -59,7 +59,7 @@ public class EventM_Sounds : MonoBehaviour {
 	void Update () {
 
         //Debug.Log(GetComponent<Rigidbody>().velocity.sqrMagnitude);
-        Debug.Log(rollingSource.volume);
+
         if (GetComponent<Rigidbody>().velocity.sqrMagnitude < 10)
         {
             rollingSource.volume -= Time.deltaTime/1.5f;

@@ -44,7 +44,6 @@ public class UDPClient : MonoBehaviour{
         receiveThread.IsBackground = true;
         receiveThread.Start();
 
-        Debug.Log("Start");
     }
     private void ReceiveData()
     {
