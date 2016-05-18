@@ -409,9 +409,9 @@ public class GameAI : MonoBehaviour {
         
 
     }
-    public void SaveToFile(float time)
+    public void SaveToFile(float time, int index)
     {
-        string path = string.Format(@"c:\Data\Event{0}.txt", _sceneManager._currentState);
+        string path = string.Format(@"c:\Data\Event{0}{1}.txt",index, _sceneManager._currentState);
         if (!File.Exists(path))
         {
 

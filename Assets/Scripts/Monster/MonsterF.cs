@@ -153,7 +153,7 @@ public class MonsterF : Monster {
             jumpscared = false;
         }
         nav.Stop();
-        GameAI.SaveToFile(GameAI.time);
+        GameAI.SaveToFile(GameAI.time,1);
         
         i += Time.deltaTime;
         if (!trigger && i > 1)

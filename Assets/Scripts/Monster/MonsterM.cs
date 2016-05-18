@@ -189,7 +189,7 @@ public class MonsterM : Monster {
     {
        //play sound
     	if(firstTimeSeenPlayer){
-            GameAI.SaveToFile(GameAI.time);
+            GameAI.SaveToFile(GameAI.time,1);
     	 AudioSource.PlayClipAtPoint(laugh01, transform.position);
          AudioSource.PlayClipAtPoint( jumpScareSound, player.transform.position, 1.0F);
     	 firstTimeSeenPlayer=false;

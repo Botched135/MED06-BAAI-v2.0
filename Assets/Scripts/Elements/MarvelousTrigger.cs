@@ -25,7 +25,7 @@ public class MarvelousTrigger : MonoBehaviour {
     {
         if(other.gameObject == Player)
         {
-            GameAI.SaveToFile(GameAI.time);
+            GameAI.SaveToFile(GameAI.time,1);
             _object.SetActive(true);
             _body.AddForce((transform.position-_object.transform.position) * _force);
             Destroy(otherTrigger);

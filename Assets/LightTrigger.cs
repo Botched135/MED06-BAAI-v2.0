@@ -25,7 +25,7 @@ public class LightTrigger : MonoBehaviour {
 
             GetComponent<BoxCollider>().enabled = false;
             AudioSource.PlayClipAtPoint(lightsOut, new Vector3(Player.transform.position.x, Player.transform.position.y + 2, Player.transform.position.z), 1.0F);
-            GameAI.SaveToFile(GameAI.time);
+            GameAI.SaveToFile(GameAI.time,1);
             foreach (GameObject lamp in Lamps)
             {
                 lamp.SetActive(false);

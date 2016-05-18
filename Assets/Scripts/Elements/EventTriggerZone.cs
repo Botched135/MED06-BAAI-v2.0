@@ -20,7 +20,7 @@ public class EventTriggerZone : MonoBehaviour {
     {
             if(col.gameObject == PlayerRef)
         {
-            GameAI.SaveToFile(GameAI.time);
+            GameAI.SaveToFile(GameAI.time,1);
             TPSet.SetActive(true);
             MannequineManager.GetComponent<MannequineScript>().enabled = true;
             Destroy(gameObject);
