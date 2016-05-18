@@ -4,8 +4,7 @@ using System.Collections;
 public class MannequineScript : MonoBehaviour {
     private PlayerSight PlayerSight;
     private GameObject Player;
-    public AudioClip teleportSound01;
-    public AudioClip teleportSound02;
+    public AudioClip teleportSound;
     public int numberMan;
     private Vector3 []direction = new Vector3[4];
     private Vector3 tempVec;
@@ -113,19 +112,12 @@ public class MannequineScript : MonoBehaviour {
             }
             Mannequnies[i].transform.position = new Vector3(temp[i].x, 1.5f, temp[i].z);
             Mannequnies[i].transform.LookAt(new Vector3(Player.gameObject.transform.position.x, Mannequnies[i].transform.position.y, Player.gameObject.transform.position.z));
-            
 
+            AudioSource.PlayClipAtPoint(teleportSound, Mannequnies[i].transform.position, 0.7f);
 
         }
-        int number = Random.Range(0,1);
+        
 
-        if (number == 0)
-        {
-            AudioSource.PlayClipAtPoint(teleportSound01, Mannequnies[0].transform.position, 1.0f);
-        }
-        else {
-            AudioSource.PlayClipAtPoint(teleportSound02, Mannequnies[0].transform.position, 1.0f);
-        }
     }
     void Evaluate()
     {

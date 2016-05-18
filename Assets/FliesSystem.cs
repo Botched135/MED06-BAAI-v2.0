@@ -178,10 +178,10 @@ public class FliesSystem : MonoBehaviour
 			retarget = true;
 			if(tracking)
 			{
-				print("Tracking....");
+
 				if(Distance >= disableDistance)
 				{
-					print("Distant enough, disabling!");
+
 					tracking = false;
 					Disable();
 				}

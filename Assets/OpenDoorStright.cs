@@ -28,5 +28,9 @@ public class OpenDoorStright : MonoBehaviour {
 			opened = true;
 			}
 		}
+        if (other.gameObject.tag == "Enemy" && !other.isTrigger)
+        {
+            opened = true;
+        }
 	}
 }
