@@ -17,8 +17,9 @@ public class UDPClient : MonoBehaviour{
     private GameAI AIController;
     [SerializeField]
     [Range(40,100)]
-    private int GSRDifference; 
+    private int GSRDifference;
 
+    public string stuff;
     Vector3 position;
 
 	// Use this for initialization
@@ -60,29 +61,31 @@ public class UDPClient : MonoBehaviour{
                 receive_byte_array = client.Receive(ref groupEP);
                 received_data = Encoding.ASCII.GetString(receive_byte_array, 0, receive_byte_array.Length);
 
-
+               
                 if (received_data != null)
                 {
 
-                    
-                    float time = 0, BPM = 0;
+
+                    long time = 0;
+                    float BPM = 0;
                     int HRD = 0, GSR = 0, BaseLine = 0;
                  
-                    int firstSpaceIndex = received_data.IndexOf(",", 0);
-                    int secondSpaceIndex = received_data.IndexOf(",", firstSpaceIndex+1);
-                    int thirdSpaceIndex = received_data.IndexOf(",", secondSpaceIndex + 1);
-                    int fouthSpaceIndex = received_data.IndexOf(",", thirdSpaceIndex + 1);
-                    int fifthSpaceIndex = received_data.IndexOf(",", fouthSpaceIndex + 1);
-                    int sixthSpaceIndex = received_data.IndexOf(",", fifthSpaceIndex + 1);
+                    int firstSpaceIndex = received_data.IndexOf(" ", 0);
+                    int secondSpaceIndex = received_data.IndexOf(" ", firstSpaceIndex+1);
+                    int thirdSpaceIndex = received_data.IndexOf(" ", secondSpaceIndex + 1);
+                    int fouthSpaceIndex = received_data.IndexOf(" ", thirdSpaceIndex + 1);
  
-                    time = float.Parse(received_data.Substring(secondSpaceIndex+1, thirdSpaceIndex - secondSpaceIndex));
-                    GSR = int.Parse(received_data.Substring(thirdSpaceIndex + 1, fouthSpaceIndex - thirdSpaceIndex-1));
-                    BaseLine = int.Parse(received_data.Substring(fouthSpaceIndex + 1, fifthSpaceIndex - fouthSpaceIndex-1));
-                    BPM = float.Parse(received_data.Substring(fifthSpaceIndex + 1,sixthSpaceIndex-fifthSpaceIndex-1));
-                    HRD = int.Parse(received_data.Substring(sixthSpaceIndex + 1));
-
+                    time = long.Parse(received_data.Substring(0, firstSpaceIndex));
+                    GSR = int.Parse(received_data.Substring(firstSpaceIndex + 1, secondSpaceIndex - firstSpaceIndex));
+                    BaseLine = int.Parse(received_data.Substring(secondSpaceIndex + 1, thirdSpaceIndex - secondSpaceIndex));
+                    BPM = float.Parse(received_data.Substring(thirdSpaceIndex + 1,fouthSpaceIndex-thirdSpaceIndex));
+                    HRD = int.Parse(received_data.Substring(fouthSpaceIndex+ 1));
 
                     AIController.time = time;
+                    AIController.Times.Add(time);
+                    AIController.HRVwith0.Add(HRD);
+                    AIController.BPMwith0.Add(BPM);
+                    AIController.GSRBaselineList.Add(BaseLine);
                     if (HRD != 0)
                     {
                         AIController.HRV.Add(HRD);

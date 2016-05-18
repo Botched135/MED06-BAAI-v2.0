@@ -21,8 +21,12 @@ public class GameAI : MonoBehaviour {
 
     [Header("Lists")]
     public List<int> HRV;
+    public List<int> HRVwith0;
     public List<int> GSR;
+    public List<int> GSRBaselineList;
     public List<float> BPM;
+    public List<float> BPMwith0;
+    public List<long> Times;
 
     public bool mode;
     private bool calc = false;
@@ -43,8 +47,9 @@ public class GameAI : MonoBehaviour {
         {
             GameObject camera = GameObject.FindGameObjectWithTag("MainCamera");
             GUI = camera.GetComponent<BaselineGUI>();
+            GUI.GameAI = GetComponent<GameAI>();
         }
-        GUI.GameAI = GetComponent<GameAI>();
+        
         AddTrigger();
         weight = 25;
 	}
@@ -60,17 +65,27 @@ public class GameAI : MonoBehaviour {
 
     public void intialReads()
     {
-        TotalScore(HeartRateAverage(BPM), 0, RMSSD(HRV), SDNN(HRV), GSRAverage(GSR));
-        ClearVariables();
-        StartCoroutine(_sceneManager._LoadScene(0, 0, 1, this));
+        if (!trig)
+        {
+            TotalScore(HeartRateAverage(BPM), 0, RMSSD(HRV), SDNN(HRV), GSRAverage(GSR));
+            ClearVariables();
+            trig = true;
+            StartCoroutine(_sceneManager._LoadScene(0, 0, 1, this));
+
+        }
     }
     private void ClearVariables()
     {
         HRV.Clear();
+        HRVwith0.Clear();
         BPM.Clear();
+        BPMwith0.Clear();
         GSR.Clear();
+        GSRBaselineList.Clear();
+        Times.Clear();
         GSRSpikes = 0;
-    }
+    
+}
 
     //------------------------------------------------ SCORE CALCULATION -------------------------------------------------------------------------
     private int Compare(float score1, float score2, float score3)
@@ -99,6 +114,7 @@ public class GameAI : MonoBehaviour {
         switch (_sceneManager._currentState)
         {
             case MySceneManager.SceneState.BaselineRoom:
+                SaveToFile(HRVwith0, GSR, BPMwith0);
                 BPMBaseline = heartRate;
                 HRVSDNNBaseline = HRV2;
                 HRVRMSSDBaseline = HRV1;
@@ -109,6 +125,7 @@ public class GameAI : MonoBehaviour {
             case MySceneManager.SceneState.Uncanny:
                 UScore = ScoreCalc(heartRate, GSRSpikes, HRV1, HRV2,weight);
                 UGSRA = GSRAverage;
+                SaveToFile(HRV, GSR, BPM);
                 SaveToFile(HRV1, HRV2, heartRate, GSRSpikes, UGSRA, UScore);
                 ClearVariables();
                 break;
@@ -121,12 +138,14 @@ public class GameAI : MonoBehaviour {
             case MySceneManager.SceneState.Fantastic:
                 FScore = ScoreCalc(heartRate, GSRSpikes, HRV1, HRV2, weight);
                 FGSRA = GSRAverage;
+                SaveToFile(HRV, GSR, BPM);
                 SaveToFile(HRV1, HRV2, heartRate, GSRSpikes, GSRAverage, FScore);
                 ClearVariables();
                 break;
             case MySceneManager.SceneState.FinalRoom:
                 FinalScore = ScoreCalc(heartRate, GSRSpikes, HRV1, HRV2, weight);
                 FinalGSRA = GSRAverage;
+                SaveToFile(HRV, GSR, BPM);
                 SaveToFile(HRV1, HRV2, heartRate, GSRSpikes, GSRAverage, FinalScore);
                 break;
             default:
@@ -402,30 +421,22 @@ public class GameAI : MonoBehaviour {
                 {
                     case MySceneManager.SceneState.Uncanny:
                         writer.WriteLine("Uncanny Event");
-                        if (mode)
-                            writer.WriteLine("Start Time: " + System.DateTime.Now.ToString("yyyy-MM-dd_HH:mm:ss"));
-                        else
-                            writer.WriteLine("Start Time: " + time);
+                      
+                         writer.WriteLine("Start Time: " + time);
                         break;
                     case MySceneManager.SceneState.Marvelous:
                         writer.WriteLine("Marvelous Event");
-                        if (mode)
-                            writer.WriteLine("Start Time: " + System.DateTime.Now.ToString("yyyy-MM-dd_HH:mm:ss"));
-                        else
+                       
                             writer.WriteLine("Start Time: " + time);
                         break;
                     case MySceneManager.SceneState.Fantastic:
                         writer.WriteLine("Fantastic Event");
-                        if (mode)
-                            writer.WriteLine("Start Time: " + System.DateTime.Now.ToString("yyyy-MM-dd_HH:mm:ss"));
-                        else
+                     
                             writer.WriteLine("Start Time: " + time);
                         break;
                     case MySceneManager.SceneState.FinalRoom:
                         writer.WriteLine("FinalRoom Event");
-                        if (mode)
-                            writer.WriteLine("Start Time: " + System.DateTime.Now.ToString("yyyy-MM-dd_HH:mm:ss"));
-                        else
+                        
                             writer.WriteLine("Start Time: " + time);
                         break;
                     default:
@@ -440,37 +451,26 @@ public class GameAI : MonoBehaviour {
                 {
                     case MySceneManager.SceneState.BaselineRoom:
                         writer.WriteLine("Baseline Room");
-                        if (mode)
-                            writer.WriteLine("Start Time: " + System.DateTime.Now.ToString("yyyy-MM-dd_HH:mm:ss"));
-                        else
+                       
                             writer.WriteLine("Start Time: " + time);
                         break;
                     case MySceneManager.SceneState.Uncanny:
                         writer.WriteLine("Uncanny Event");
-                        if (mode)
-                            writer.WriteLine("Start Time: " + System.DateTime.Now.ToString("yyyy-MM-dd_HH:mm:ss"));
-                        else
+                       
                             writer.WriteLine("Start Time: " + time);
                         break;
                     case MySceneManager.SceneState.Marvelous:
                         writer.WriteLine("Marvelous Event");
-                        if (mode)
-                            writer.WriteLine("Start Time: " + System.DateTime.Now.ToString("yyyy-MM-dd_HH:mm:ss"));
-                        else
-                            writer.WriteLine("Start Time: " + time);
+                        writer.WriteLine("Start Time: " + time);
                         break;
                     case MySceneManager.SceneState.Fantastic:
                         writer.WriteLine("Fantastic Event");
-                        if (mode)
-                            writer.WriteLine("Start Time: " + System.DateTime.Now.ToString("yyyy-MM-dd_HH:mm:ss"));
-                        else
+                       
                             writer.WriteLine("Start Time: " + time);
                         break;
                     case MySceneManager.SceneState.FinalRoom:
                         writer.WriteLine("FinalRoom Event");
-                        if (mode)
-                            writer.WriteLine("Start Time: " + System.DateTime.Now.ToString("yyyy-MM-dd_HH:mm:ss"));
-                        else
+                        
                             writer.WriteLine("Start Time: " + time);
                         break;
                     default:
@@ -481,12 +481,80 @@ public class GameAI : MonoBehaviour {
         }
 
     }
+    public void SaveToFile(List<int> HRV, List<int> GSR, List<float> BPM)
+    {
+
+        string path = string.Format(@"c:\Data\DataLogging{0}.txt", _sceneManager._currentState);
+        if (!File.Exists(path))
+        {
+
+            using (StreamWriter writer = File.CreateText(path))
+            {
+                switch (_sceneManager._currentState)
+                {
+                    case MySceneManager.SceneState.BaselineRoom:
+                        writer.WriteLine("Baseline Data");
+                        WriteInformation(Times, HRV, GSR,GSRBaselineList, BPM, writer);
+                        break;
+                    case MySceneManager.SceneState.Uncanny:
+                        writer.WriteLine("Uncanny Data");
+                        WriteInformation(Times, HRV, GSR, GSRBaselineList, BPM, writer);
+                       
+                        break;
+                    case MySceneManager.SceneState.Marvelous:
+                        writer.WriteLine("Marvelous Data");
+                        WriteInformation(Times, HRV, GSR, GSRBaselineList, BPM, writer);
+                        break;
+                    case MySceneManager.SceneState.Fantastic:
+                        writer.WriteLine("Fantastic Data");
+                        WriteInformation(Times, HRV, GSR, GSRBaselineList, BPM, writer);
+                        break;
+                    case MySceneManager.SceneState.FinalRoom:
+                        writer.WriteLine("FinalRoom Data");
+                        WriteInformation(Times, HRV, GSR, GSRBaselineList, BPM, writer);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+        else {
+            using (StreamWriter writer = new StreamWriter(path))
+            {
+                switch (_sceneManager._currentState)
+                {
+                    case MySceneManager.SceneState.BaselineRoom:
+                        writer.WriteLine("Baseline Room Data");
+
+                        WriteInformation(Times, HRV, GSR, GSRBaselineList, BPM, writer);
+                        break;
+                    case MySceneManager.SceneState.Uncanny:
+                        writer.WriteLine("Uncanny Data");
+                        WriteInformation(Times, HRV, GSR, GSRBaselineList, BPM, writer);
+                        break;
+                    case MySceneManager.SceneState.Marvelous:
+                        writer.WriteLine("Marvelous Data");
+                        WriteInformation(Times, HRV, GSR, GSRBaselineList, BPM, writer);
+                        break;
+                    case MySceneManager.SceneState.Fantastic:
+                        writer.WriteLine("Fantastic Data");
+                        WriteInformation(Times, HRV, GSR, GSRBaselineList, BPM, writer);
+                        break;
+                    case MySceneManager.SceneState.FinalRoom:
+                        writer.WriteLine("FinalRoom Data");
+                        WriteInformation(Times, HRV, GSR, GSRBaselineList, BPM, writer);
+                        break;
+                    default:
+                        break;
+
+                }
+            }
+        }
+    }
  
     private void WriteInformation(float RMSSD, float SDNN, float BPM, int GSRspikes, float GSRAverage, float Score, StreamWriter writer)
     {
-        if (mode)
-            writer.WriteLine("Time End: "+ System.DateTime.Now.ToString("yyyy-MM-dd_HH:mm:ss"));
-        else
+        
             writer.WriteLine("Time End: " + time);
         writer.WriteLine("Total Score: " + Score);
         writer.WriteLine("BPM: " + BPM);
@@ -498,13 +566,28 @@ public class GameAI : MonoBehaviour {
     }
     private void WriteInformation(float BPMBaseline, float HRVBaselineRMSSD, float HRVBaselineSDNN, float GSRBaseline, StreamWriter writer)
     {
-        if (mode)
-            writer.WriteLine("Time End: " + System.DateTime.Now.ToString("yyyy-MM-dd_HH:mm:ss"));
-        else
-            writer.WriteLine("Time End: " + time);
+       
+        writer.WriteLine("Time End: " + time);
         writer.WriteLine("BPMBaseline: "+BPMBaseline);
         writer.WriteLine("HRVBaseline(RMSSD): "+HRVBaselineRMSSD);
         writer.WriteLine("HRVBaseline(SDNN): " + HRVBaselineSDNN);
         writer.WriteLine("GSRBaseline: "+GSRBaseline);
+    }
+    private void WriteInformation(List<long> time, List<int> HRV, List<int> GSR, List<int> BaselineGSR, List<float> BPM, StreamWriter writer)
+    {
+
+        for (int i = 0; i < time.Count; i++)
+        {
+            writer.Write(time[i]);
+            writer.Write("\t");
+            writer.Write(GSR[i]);
+            writer.Write("\t");
+            writer.Write(BaselineGSR[i]);
+            writer.Write("\t");
+            writer.Write(BPM[i]);
+            writer.Write("\t");
+            writer.WriteLine(HRV[i]);
+        }
+        
     }
 }

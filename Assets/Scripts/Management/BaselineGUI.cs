@@ -2,6 +2,11 @@
 using System.Collections;
 
 public class BaselineGUI : MonoBehaviour {
+    [Header("Duration of initial measurement ")]
+    [Range(0, 300)]
+    public int Countdown;
+
+    [Header("Variables")]
     public float time;
     private int Timer;
     public bool mode;
@@ -11,10 +16,10 @@ public class BaselineGUI : MonoBehaviour {
     public AudioSource source;
     public GameAI GameAI;
     public GameObject temp;
-   
     
 	// Use this for initialization
 	void Start () {
+
         Xsize = 500;
         YSize = Xsize;
         source.volume = 0.5f;
@@ -29,9 +34,9 @@ public class BaselineGUI : MonoBehaviour {
         }
         time += Time.deltaTime;
         Timer = (int)time;
-        if (Timer == 10) //300 for 5 min
+        if (Timer == Countdown|| Input.GetKeyDown(KeyCode.P)) 
         {
-            GameAI.intialReads();
+            GameAI.intialReads();  
         }
     }
     void OnGUI()
