@@ -18,7 +18,7 @@ public class uSoundRip : MonoBehaviour {
 	void Update () {
 		timer++;
 		if(timer==300){
-            GameAI.SaveToFile(GameAI.time);
+            GameAI.SaveToFile(GameAI.time,1);
             eventSound.Play();
 		    //AudioSource.PlayClipAtPoint(ripSound, transform.position,1.0F);
 	}
