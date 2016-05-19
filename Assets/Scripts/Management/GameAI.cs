@@ -125,27 +125,28 @@ public class GameAI : MonoBehaviour {
             case MySceneManager.SceneState.Uncanny:
                 UScore = ScoreCalc(heartRate, GSRSpikes, HRV1, HRV2,weight);
                 UGSRA = GSRAverage;
-                SaveToFile(HRV, GSR, BPM);
+                SaveToFile(HRVwith0, GSR, BPMwith0);
                 SaveToFile(HRV1, HRV2, heartRate, GSRSpikes, UGSRA, UScore);
                 ClearVariables();
                 break;
             case MySceneManager.SceneState.Marvelous:
                 MScore = ScoreCalc(heartRate, GSRSpikes, HRV1, HRV2,weight);
                 MGSRA = GSRAverage;
+                SaveToFile(HRVwith0, GSR, BPMwith0);
                 SaveToFile(HRV1, HRV2, heartRate, GSRSpikes, GSRAverage, MScore);
                 ClearVariables();
                 break;
             case MySceneManager.SceneState.Fantastic:
                 FScore = ScoreCalc(heartRate, GSRSpikes, HRV1, HRV2, weight);
                 FGSRA = GSRAverage;
-                SaveToFile(HRV, GSR, BPM);
+                SaveToFile(HRVwith0, GSR, BPMwith0);
                 SaveToFile(HRV1, HRV2, heartRate, GSRSpikes, GSRAverage, FScore);
                 ClearVariables();
                 break;
             case MySceneManager.SceneState.FinalRoom:
                 FinalScore = ScoreCalc(heartRate, GSRSpikes, HRV1, HRV2, weight);
                 FinalGSRA = GSRAverage;
-                SaveToFile(HRV, GSR, BPM);
+                SaveToFile(HRVwith0, GSR, BPMwith0);
                 SaveToFile(HRV1, HRV2, heartRate, GSRSpikes, GSRAverage, FinalScore);
                 break;
             default:
@@ -499,7 +500,6 @@ public class GameAI : MonoBehaviour {
                     case MySceneManager.SceneState.Uncanny:
                         writer.WriteLine("Uncanny Data");
                         WriteInformation(Times, HRV, GSR, GSRBaselineList, BPM, writer);
-                       
                         break;
                     case MySceneManager.SceneState.Marvelous:
                         writer.WriteLine("Marvelous Data");
@@ -575,7 +575,7 @@ public class GameAI : MonoBehaviour {
     }
     private void WriteInformation(List<long> time, List<int> HRV, List<int> GSR, List<int> BaselineGSR, List<float> BPM, StreamWriter writer)
     {
-
+        writer.WriteLine("time \t GSR \t BaselineGSR \t BPM\t HRV");
         for (int i = 0; i < time.Count; i++)
         {
             writer.Write(time[i]);
