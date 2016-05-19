@@ -107,7 +107,7 @@ public class GameAI : MonoBehaviour {
         {
             return Compare(GSRBaseline-UGSRA, GSRBaseline - MGSRA, GSRBaseline - FGSRA);   
         }
-        return highestScore + 2;
+        return highestScore + 3;
     }
     public void TotalScore(float heartRate, int GSRSpikes, float HRV1, float HRV2, float GSRAverage)
     {
