@@ -114,6 +114,7 @@
     <Compile Include="Assets\Scripts\Player\Rumble.cs" />
     <Compile Include="Assets\Scripts\UDPclient\DataHolder.cs" />
     <Compile Include="Assets\Scripts\UDPclient\UDPClient.cs" />
+    <Compile Include="Assets\SlamDoor.cs" />
     <Compile Include="Assets\XInputDotNetPure\GamePad.cs" />
     <Compile Include="Assets\XInputDotNetPure\Properties\AssemblyInfo.cs" />
     <Compile Include="Assets\XInputDotNetPure\Utils.cs" />
